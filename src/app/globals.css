@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ── CSS Variables ─────────────────────────────────────── */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f8f9fc;
+  --color-border: #e7eaf0;
+  --color-text: #111318;
+  --color-muted: #6b7280;
+  --color-accent: #2f6bff;
+  --color-accent-light: #dde8ff;
+  --color-green: #12b981;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --glow-accent:
+    0 0 40px rgba(47, 107, 255, 0.18), 0 0 80px rgba(47, 107, 255, 0.1);
+  --radius-card: 20px;
+  --radius-btn: 10px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-inter, 'Inter'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography ─────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ── Utility Classes ────────────────────────────────────── */
+.section-pad {
+  padding: 80px 0;
+}
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  padding: 12px 24px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+.btn-primary:hover {
+  background: #1a55e8;
+  border-color: #1a55e8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(47, 107, 255, 0.3);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.btn-outline:hover {
+  background: var(--color-accent-light);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-ghost:hover {
+  background: var(--color-surface);
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition),
+    transform var(--transition),
+    border-color var(--transition);
+  overflow: hidden;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #c9d5f5;
+}
+
+/* ── Section Heading ─────────────────────────────────────── */
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.section-title {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 8px 0 16px;
+}
+.section-sub {
+  font-size: 1rem;
+  color: var(--color-muted);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── Accent glow animation ────────────────────────────────── */
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: var(--glow-accent);
+  }
+  50% {
+    box-shadow:
+      0 0 60px rgba(47, 107, 255, 0.28),
+      0 0 100px rgba(47, 107, 255, 0.14);
+  }
+}
+
+/* ── Hairline divider ─────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ── WhatsApp green ───────────────────────────────────────── */
+.wa-btn {
+  background: #25d366;
+  color: #fff;
+  border-color: #25d366;
+}
+.wa-btn:hover {
+  background: #1ebe5d;
+  border-color: #1ebe5d;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+}
+
+/* scrollbar minimal */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 99px;
+}
