@@ -5,60 +5,81 @@ import Reveal from "@/components/shared/Reveal";
 
 export default function GalleryBand() {
   return (
-    <section className="relative py-20 overflow-hidden">
-      {/* Waves background at low opacity */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="/assets/waves-bg.png"
-          alt=""
-          fill
-          className="object-cover opacity-[0.04]"
-          aria-hidden="true"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f0f5ff]/80 to-[#f0f5ff]/60" />
-      </div>
+    <section className="relative py-20 overflow-hidden" style={{ background: "var(--color-bg)" }}>
+      {/* subtle blue grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(37,99,235,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(37,99,235,0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
+        aria-hidden="true"
+      />
 
       <div className="container relative z-10">
         <Reveal>
-          <div className="text-center mb-10">
-            <p className="section-label">Fleet Ready</p>
+          <div className="mb-10">
+            <p className="section-label mb-2">Fleet Ready</p>
             <h2 className="section-title">Purpose-Built for Commercial Use</h2>
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div
-            className="relative rounded-2xl overflow-hidden border border-[#e7eaf0] mx-auto max-w-4xl"
-            style={{
-              boxShadow:
-                "0 16px 48px rgba(47,107,255,0.10), 0 4px 12px rgba(0,0,0,0.06)",
-            }}
-          >
-            <div className="relative h-72 md:h-96 bg-gradient-to-br from-[#e8f0fe] to-[#dde8ff] flex items-center justify-center">
-              <Image
-                src="/assets/scooter-lineup.png"
-                alt="Electric scooter lineup for bulk fleet supply"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 896px"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
+        <Reveal delay={0.08}>
+          <div className="relative mx-auto max-w-4xl">
+            {/* corner markers */}
+            {[
+              { style: { top: -8, left: -8, borderTop: "2px solid #2563EB", borderLeft: "2px solid #2563EB" } },
+              { style: { top: -8, right: -8, borderTop: "2px solid #2563EB", borderRight: "2px solid #2563EB" } },
+              { style: { bottom: -8, left: -8, borderBottom: "2px solid #2563EB", borderLeft: "2px solid #2563EB" } },
+              { style: { bottom: -8, right: -8, borderBottom: "2px solid #2563EB", borderRight: "2px solid #2563EB" } },
+            ].map((c, i) => (
+              <span
+                key={i}
+                className="absolute w-4 h-4 pointer-events-none z-10"
+                style={c.style as React.CSSProperties}
+                aria-hidden="true"
               />
-              {/* Fallback */}
-              <div className="z-0 text-center pointer-events-none">
-                <p className="text-5xl mb-3">🛵🛵🛵</p>
-                <p className="text-sm text-[#6b7280]">scooter-lineup.png</p>
+            ))}
+
+            <div className="overflow-hidden" style={{ border: "1px solid #DDE1E9", boxShadow: "var(--shadow-md)" }}>
+              <div
+                className="relative h-72 md:h-96 flex items-center justify-center"
+                style={{ background: "#EEF2F9" }}
+              >
+                <Image
+                  src="/assets/scooter-lineup.png"
+                  alt="Electric scooter lineup for bulk fleet supply"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 896px"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+                <div className="z-0 text-center pointer-events-none">
+                  <p className="text-5xl mb-3 opacity-30">🛵🛵🛵</p>
+                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", color: "#94A3B8" }}>
+                    scooter-lineup.png
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="px-6 py-4 bg-white/90 backdrop-blur-sm border-t border-[#e7eaf0] text-center">
-              <p className="text-xs text-[#9ca3af]">
-                Representative models. Final catalog can include your exact
-                SKUs. Contact us for OEM sourcing.
-              </p>
+
+              <div
+                className="px-5 py-3 flex items-center justify-between"
+                style={{ background: "#fff", borderTop: "1px solid #DDE1E9" }}
+              >
+                <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8" }}>
+                  Representative models — contact us for OEM sourcing
+                </p>
+                <span
+                  className="flex items-center gap-1.5"
+                  style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", color: "#2563EB" }}
+                >
+                  <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: "#2563EB" }} aria-hidden="true" />
+                  FLEET GRADE
+                </span>
+              </div>
             </div>
           </div>
         </Reveal>

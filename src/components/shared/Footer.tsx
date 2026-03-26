@@ -7,38 +7,32 @@ import { Phone, Mail, MessageCircle, Zap } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f8f9fc] border-t border-[#e7eaf0] mt-0">
+    <footer style={{ background: "#fff", borderTop: "1px solid #DDE1E9" }}>
       <div className="container py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div>
-          <div className="flex items-center gap-2 font-bold text-lg text-[#111318] mb-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#2f6bff] text-white">
+          <div className="flex items-center gap-2.5 mb-4">
+            <span className="flex items-center justify-center w-7 h-7 text-white" style={{ background: "#2563EB", borderRadius: 2 }}>
               <Zap size={14} strokeWidth={2.5} />
             </span>
-            {siteConfig.businessName}
+            <span style={{ fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif", fontWeight: 700, fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: "#111827" }}>
+              {siteConfig.businessName}
+            </span>
           </div>
-          <p className="text-sm text-[#6b7280] leading-relaxed mb-4">
-            {siteConfig.tagline}. GST billing, bulk pricing, and fleet
-            coordination across India.
+          <p className="mb-5 leading-relaxed" style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B" }}>
+            {siteConfig.tagline}. GST billing, bulk pricing, and fleet coordination across India.
           </p>
-          <div className="flex flex-col gap-2">
-            <a
-              href={genericEnquiryUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn wa-btn text-sm w-fit"
-            >
-              <MessageCircle size={15} /> WhatsApp for Quote
-            </a>
-          </div>
+          <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn text-sm w-fit">
+            <MessageCircle size={14} /> WhatsApp for Quote
+          </a>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-[#6b7280] mb-4">
+          <h3 className="mb-4" style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#94A3B8" }}>
             Quick Links
           </h3>
-          <ul className="flex flex-col gap-2 text-sm text-[#374151]">
+          <ul className="flex flex-col gap-2.5">
             {[
               { href: "/", label: "Home" },
               { href: "/products", label: "Products" },
@@ -47,9 +41,10 @@ export default function Footer() {
               { href: "/contact", label: "Get a Quote" },
             ].map((l) => (
               <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className="hover:text-[#2f6bff] transition-colors"
+                <Link href={l.href}
+                  style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
                 >
                   {l.label}
                 </Link>
@@ -60,42 +55,46 @@ export default function Footer() {
 
         {/* Contact */}
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-[#6b7280] mb-4">
+          <h3 className="mb-4" style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "#94A3B8" }}>
             Contact Us
           </h3>
-          <div className="flex flex-col gap-3 text-sm text-[#374151]">
-            <a
-              href={`tel:${siteConfig.phoneRaw}`}
-              className="flex items-center gap-2 hover:text-[#2f6bff] transition-colors"
+          <div className="flex flex-col gap-3">
+            <a href={`tel:${siteConfig.phoneRaw}`} className="flex items-center gap-2"
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
             >
-              <Phone size={15} className="text-[#2f6bff]" />
+              <Phone size={13} style={{ color: "#2563EB" }} />
               {siteConfig.phone}
             </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-2 hover:text-[#2f6bff] transition-colors"
+            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2"
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
             >
-              <Mail size={15} className="text-[#2f6bff]" />
+              <Mail size={13} style={{ color: "#2563EB" }} />
               {siteConfig.email}
             </a>
-            <p className="text-[#6b7280]">
+            <p style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
               {siteConfig.address.line1},<br />
               {siteConfig.address.line2},<br />
-              {siteConfig.address.city}, {siteConfig.address.state} —{" "}
-              {siteConfig.address.pin}
+              {siteConfig.address.city}, {siteConfig.address.state} — {siteConfig.address.pin}
             </p>
-            <p className="text-[#6b7280] text-xs">{siteConfig.hours}</p>
+            <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.06em", color: "#94A3B8" }}>
+              {siteConfig.hours}
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-[#e7eaf0] py-5">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-[#9ca3af]">
-          <span>
-            © {new Date().getFullYear()} {siteConfig.businessName}. All rights
-            reserved.
+      <div style={{ borderTop: "1px solid #DDE1E9" }}>
+        <div className="container flex flex-col md:flex-row items-center justify-between gap-2 py-5">
+          <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.08em", color: "#94A3B8" }}>
+            © {new Date().getFullYear()} {siteConfig.businessName}. All rights reserved.
           </span>
-          <span>Prototype images are for representation only.</span>
+          <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.08em", color: "#94A3B8" }}>
+            Prototype images are for representation only.
+          </span>
         </div>
       </div>
     </footer>

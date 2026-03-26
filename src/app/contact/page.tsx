@@ -41,29 +41,68 @@ const faqs = [
   },
 ];
 
+const fieldStyle: React.CSSProperties = {
+  fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+  fontSize: "0.875rem",
+  color: "#111827",
+  background: "#fff",
+  border: "1px solid #DDE1E9",
+  borderRadius: 2,
+  outline: "none",
+  width: "100%",
+  padding: "10px 12px",
+  transition: "border-color 0.2s",
+};
+
+const labelStyle: React.CSSProperties = {
+  fontFamily: "var(--font-mono, monospace)",
+  fontSize: "0.6rem",
+  letterSpacing: "0.12em",
+  textTransform: "uppercase" as const,
+  color: "#94A3B8",
+  display: "block",
+  marginBottom: 6,
+};
+
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-[#e7eaf0] last:border-0">
+    <div style={{ borderBottom: "1px solid #DDE1E9" }}>
       <button
         className="flex items-center justify-between w-full py-4 text-left gap-4 group"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        style={{ background: "none", border: "none", cursor: "pointer" }}
       >
-        <span className="text-sm font-semibold text-[#111318] group-hover:text-[#2f6bff] transition-colors">
+        <span
+          style={{
+            fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+            fontSize: "0.875rem",
+            fontWeight: 600,
+            color: open ? "#2563EB" : "#111827",
+            transition: "color 0.2s",
+          }}
+        >
           {q}
         </span>
         {open ? (
-          <ChevronUp size={16} className="text-[#2f6bff] shrink-0" />
+          <ChevronUp size={15} style={{ color: "#2563EB", flexShrink: 0 }} />
         ) : (
-          <ChevronDown
-            size={16}
-            className="text-[#9ca3af] shrink-0 group-hover:text-[#2f6bff] transition-colors"
-          />
+          <ChevronDown size={15} style={{ color: "#94A3B8", flexShrink: 0 }} />
         )}
       </button>
       {open && (
-        <p className="pb-4 text-sm text-[#6b7280] leading-relaxed">{a}</p>
+        <p
+          className="pb-4"
+          style={{
+            fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+            fontSize: "0.875rem",
+            color: "#64748B",
+            lineHeight: 1.65,
+          }}
+        >
+          {a}
+        </p>
       )}
     </div>
   );
@@ -104,208 +143,264 @@ export default function ContactPage() {
 
   const hasMapUrl = siteConfig.googleMapsEmbedUrl.length > 0;
 
+  const focusBorder = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    ((e.currentTarget as HTMLElement).style.borderColor = "#2563EB");
+  const blurBorder = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    ((e.currentTarget as HTMLElement).style.borderColor = "#DDE1E9");
+
   return (
-    <div className="pt-24 pb-20">
+    <div
+      className="pt-24 pb-20"
+      style={{ background: "var(--color-bg)", minHeight: "100vh" }}
+    >
       <div className="container">
         <Reveal>
-          <div className="mb-12 text-center">
-            <p className="section-label">Request a Quote</p>
+          <div className="mb-12">
+            <p className="section-label mb-2">Request a Quote</p>
             <h1 className="section-title">Get a Bulk Quote</h1>
-            <p className="text-[#6b7280] max-w-xl mx-auto mt-2">
+            <p
+              className="mt-3"
+              style={{
+                fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                fontSize: "1rem",
+                color: "#64748B",
+                maxWidth: 480,
+                lineHeight: 1.65,
+              }}
+            >
               Fill in your requirement below and we'll open WhatsApp with a
               pre-filled message for rapid follow-up. No backend, no delays.
             </p>
           </div>
         </Reveal>
 
-        {/* Contact methods row */}
-        <Reveal delay={0.05}>
-          <div className="flex flex-wrap justify-center gap-3 mb-14">
+        {/* Contact method strip */}
+        <Reveal delay={0.04}>
+          <div className="flex flex-wrap gap-3 mb-12">
             <a
               href={genericEnquiryUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className="btn wa-btn"
             >
-              <MessageCircle size={16} /> WhatsApp: {siteConfig.phone}
+              <MessageCircle size={15} /> WhatsApp: {siteConfig.phone}
             </a>
             <a href={`tel:${siteConfig.phoneRaw}`} className="btn btn-outline">
-              <Phone size={16} /> {siteConfig.phone}
+              <Phone size={15} /> {siteConfig.phone}
             </a>
             <a href={`mailto:${siteConfig.email}`} className="btn btn-ghost">
-              <Mail size={16} /> {siteConfig.email}
+              <Mail size={15} /> {siteConfig.email}
             </a>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Quote form */}
-          <Reveal delay={0.05}>
-            <div className="card p-8">
-              <h2 className="text-lg font-semibold text-[#111318] mb-6">
-                Bulk Quote Request
-              </h2>
-              {submitted ? (
-                <div className="py-10 text-center">
-                  <p className="text-4xl mb-3">✅</p>
-                  <p className="font-semibold text-[#111318]">
-                    WhatsApp opened!
-                  </p>
-                  <p className="text-sm text-[#6b7280] mt-1 mb-6">
-                    Your message has been pre-filled. Send it to connect with
-                    us.
-                  </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="btn btn-outline text-sm"
-                  >
-                    Submit another request
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-xs font-medium text-[#374151] mb-1.5"
-                      >
-                        Full Name *
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                        value={form.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                        className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block text-xs font-medium text-[#374151] mb-1.5"
-                      >
-                        Phone *
-                      </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="+91 98765 43210"
-                        className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition"
-                      />
-                    </div>
-                  </div>
+          <Reveal delay={0.04}>
+            <div style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}>
+              {/* form header */}
+              <div
+                className="px-7 py-4"
+                style={{ borderBottom: "1px solid #DDE1E9" }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "#2563EB",
+                  }}
+                >
+                  Bulk Quote Request
+                </span>
+              </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="city"
-                        className="block text-xs font-medium text-[#374151] mb-1.5"
-                      >
-                        City / Location *
-                      </label>
-                      <input
-                        id="city"
-                        name="city"
-                        type="text"
-                        required
-                        value={form.city}
-                        onChange={handleChange}
-                        placeholder="Delhi, Mumbai…"
-                        className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="quantity"
-                        className="block text-xs font-medium text-[#374151] mb-1.5"
-                      >
-                        Quantity *
-                      </label>
-                      <input
-                        id="quantity"
-                        name="quantity"
-                        type="text"
-                        required
-                        value={form.quantity}
-                        onChange={handleChange}
-                        placeholder="e.g. 20 units"
-                        className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="category"
-                      className="block text-xs font-medium text-[#374151] mb-1.5"
+              <div className="px-7 py-6">
+                {submitted ? (
+                  <div className="py-10 text-center">
+                    <p
+                      style={{
+                        fontFamily:
+                          "var(--font-display, 'Barlow Condensed'), sans-serif",
+                        fontSize: "2rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        color: "#00d97e",
+                        marginBottom: 8,
+                      }}
                     >
-                      Category *
-                    </label>
-                    <select
-                      id="category"
-                      name="category"
-                      required
-                      value={form.category}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition bg-white"
+                      WhatsApp Opened
+                    </p>
+                    <p
+                      className="mb-6"
+                      style={{
+                        fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                        fontSize: "0.875rem",
+                        color: "#64748B",
+                      }}
                     >
-                      {categories.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-xs font-medium text-[#374151] mb-1.5"
+                      Your message has been pre-filled. Send it to connect with
+                      us.
+                    </p>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="btn btn-outline text-sm"
                     >
-                      Additional Details
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={3}
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="Specific model preference, delivery timeline, payment terms, etc."
-                      className="w-full px-3 py-2.5 text-sm border border-[#e7eaf0] rounded-lg focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition resize-none"
-                    />
+                      Submit another request
+                    </button>
                   </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label htmlFor="name" style={labelStyle}>
+                          Full Name *
+                        </label>
+                        <input
+                          id="name"
+                          name="name"
+                          type="text"
+                          required
+                          value={form.name}
+                          onChange={handleChange}
+                          placeholder="Your name"
+                          style={fieldStyle}
+                          onFocus={focusBorder}
+                          onBlur={blurBorder}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" style={labelStyle}>
+                          Phone *
+                        </label>
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          required
+                          value={form.phone}
+                          onChange={handleChange}
+                          placeholder="+91 98765 43210"
+                          style={fieldStyle}
+                          onFocus={focusBorder}
+                          onBlur={blurBorder}
+                        />
+                      </div>
+                    </div>
 
-                  <button
-                    type="submit"
-                    className="btn wa-btn justify-center mt-1"
-                  >
-                    <MessageCircle size={16} /> Send via WhatsApp
-                  </button>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label htmlFor="city" style={labelStyle}>
+                          City / Location *
+                        </label>
+                        <input
+                          id="city"
+                          name="city"
+                          type="text"
+                          required
+                          value={form.city}
+                          onChange={handleChange}
+                          placeholder="Delhi, Mumbai…"
+                          style={fieldStyle}
+                          onFocus={focusBorder}
+                          onBlur={blurBorder}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="quantity" style={labelStyle}>
+                          Quantity *
+                        </label>
+                        <input
+                          id="quantity"
+                          name="quantity"
+                          type="text"
+                          required
+                          value={form.quantity}
+                          onChange={handleChange}
+                          placeholder="e.g. 20 units"
+                          style={fieldStyle}
+                          onFocus={focusBorder}
+                          onBlur={blurBorder}
+                        />
+                      </div>
+                    </div>
 
-                  <p className="text-xs text-[#9ca3af] text-center">
-                    Submitting opens WhatsApp with a pre-filled message. No data
-                    is stored.
-                  </p>
-                </form>
-              )}
+                    <div>
+                      <label htmlFor="category" style={labelStyle}>
+                        Category *
+                      </label>
+                      <select
+                        id="category"
+                        name="category"
+                        required
+                        value={form.category}
+                        onChange={handleChange}
+                        style={{ ...fieldStyle, cursor: "pointer" }}
+                        onFocus={focusBorder}
+                        onBlur={blurBorder}
+                      >
+                        {categories.map((c) => (
+                          <option
+                            key={c}
+                            value={c}
+                            style={{ background: "#F4F6F9", color: "#111827" }}
+                          >
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" style={labelStyle}>
+                        Additional Details
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={3}
+                        value={form.message}
+                        onChange={handleChange}
+                        placeholder="Specific model preference, delivery timeline, payment terms, etc."
+                        style={{ ...fieldStyle, resize: "none" }}
+                        onFocus={focusBorder}
+                        onBlur={blurBorder}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="btn wa-btn justify-center mt-1"
+                    >
+                      <MessageCircle size={15} /> Send via WhatsApp
+                    </button>
+
+                    <p
+                      className="text-center"
+                      style={{
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "0.6rem",
+                        letterSpacing: "0.08em",
+                        color: "#94A3B8",
+                      }}
+                    >
+                      Submitting opens WhatsApp with a pre-filled message. No
+                      data is stored.
+                    </p>
+                  </form>
+                )}
+              </div>
             </div>
           </Reveal>
 
-          {/* Map + info + FAQ */}
+          {/* Right col: map + address + FAQ */}
           <div className="flex flex-col gap-6">
             {/* Map */}
-            <Reveal delay={0.1}>
+            <Reveal delay={0.08}>
               <div
-                className="rounded-2xl overflow-hidden border border-[#e7eaf0] h-64"
-                style={{ boxShadow: "var(--shadow-md)" }}
+                className="overflow-hidden"
+                style={{ border: "1px solid #DDE1E9", height: 256 }}
               >
                 {hasMapUrl ? (
                   <iframe
@@ -313,15 +408,32 @@ export default function ContactPage() {
                     title="PowerElectric location map"
                     width="100%"
                     height="100%"
-                    style={{ border: 0 }}
+                    style={{
+                      border: 0,
+                      filter: "invert(0.9) hue-rotate(180deg)",
+                    }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#f0f4ff] to-[#e8f0fe] gap-2">
-                    <MapPin size={28} className="text-[#2f6bff] opacity-40" />
-                    <p className="text-sm text-[#6b7280]">
+                  <div
+                    className="w-full h-full flex flex-col items-center justify-center gap-2"
+                    style={{ background: "#F4F6F9" }}
+                  >
+                    <MapPin
+                      size={24}
+                      style={{ color: "#2563EB", opacity: 0.35 }}
+                    />
+                    <p
+                      style={{
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "0.6rem",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: "#94A3B8",
+                      }}
+                    >
                       Update googleMapsEmbedUrl in src/config/site.ts
                     </p>
                   </div>
@@ -330,34 +442,75 @@ export default function ContactPage() {
             </Reveal>
 
             {/* Address + hours */}
-            <Reveal delay={0.12}>
-              <div className="card p-6 flex flex-col gap-3 text-sm">
-                <div className="flex gap-3">
+            <Reveal delay={0.1}>
+              <div
+                style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}
+              >
+                <div
+                  className="flex gap-3 px-5 py-4"
+                  style={{ borderBottom: "1px solid #DDE1E9" }}
+                >
                   <MapPin
-                    size={16}
-                    className="text-[#2f6bff] shrink-0 mt-0.5"
+                    size={14}
+                    className="shrink-0 mt-0.5"
+                    style={{ color: "#2563EB" }}
                   />
-                  <p className="text-[#374151]">
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                      fontSize: "0.875rem",
+                      color: "#64748B",
+                    }}
+                  >
                     {siteConfig.address.line1}, {siteConfig.address.line2},{" "}
                     {siteConfig.address.city} — {siteConfig.address.pin}
                   </p>
                 </div>
-                <div className="flex gap-3">
-                  <Clock size={16} className="text-[#2f6bff] shrink-0 mt-0.5" />
-                  <p className="text-[#374151]">{siteConfig.hours}</p>
+                <div className="flex gap-3 px-5 py-4">
+                  <Clock
+                    size={14}
+                    className="shrink-0 mt-0.5"
+                    style={{ color: "#2563EB" }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                      fontSize: "0.875rem",
+                      color: "#64748B",
+                    }}
+                  >
+                    {siteConfig.hours}
+                  </p>
                 </div>
               </div>
             </Reveal>
 
             {/* FAQ */}
-            <Reveal delay={0.14}>
-              <div className="card p-6">
-                <h2 className="text-base font-semibold text-[#111318] mb-4">
-                  Common Questions
-                </h2>
-                {faqs.map((faq) => (
-                  <FAQItem key={faq.q} {...faq} />
-                ))}
+            <Reveal delay={0.12}>
+              <div
+                style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}
+              >
+                <div
+                  className="px-6 py-4"
+                  style={{ borderBottom: "1px solid #DDE1E9" }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "#2563EB",
+                    }}
+                  >
+                    Common Questions
+                  </span>
+                </div>
+                <div className="px-6 pb-2">
+                  {faqs.map((faq) => (
+                    <FAQItem key={faq.q} {...faq} />
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>

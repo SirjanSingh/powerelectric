@@ -18,7 +18,7 @@ export const siteConfig = {
     country: "India",
   },
 
-  hours: "Mon – Sat: 9 AM – 7 PM IST",
+  hours: "Mon - Sat: 9 AM – 7 PM IST",
   hoursNote: "Sunday: Closed. WhatsApp available 24 hours.",
 
   serviceAreas: [
