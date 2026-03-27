@@ -148,6 +148,7 @@ export default function Hero() {
               height={390}
               priority
               className="hero-img"
+              style={{ height: "auto" }}
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).style.display = "none";
               }}
