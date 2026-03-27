@@ -20,35 +20,87 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="section-pad bg-[#f8f9fc]">
+    <section className="section-pad" style={{ background: "var(--color-bg)" }}>
       <div className="container">
         <Reveal>
-          <div className="text-center mb-14">
-            <p className="section-label">Process</p>
+          <div className="mb-14">
+            <p className="section-label mb-2">Process</p>
             <h2 className="section-title">How Bulk Ordering Works</h2>
-            <p className="section-sub mx-auto">
+            <p className="section-sub">
               Simple, transparent, and fast — designed for B2B buyers.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-          {/* Connector line on desktop */}
-          <div
-            className="hidden md:block absolute top-8 left-[calc(16.66%-12px)] right-[calc(16.66%-12px)] h-px bg-[#e7eaf0] z-0"
-            aria-hidden="true"
-          />
-
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-[#DDE1E9]">
           {steps.map(({ num, title, desc }, i) => (
-            <Reveal key={num} delay={i * 0.15}>
-              <div className="relative z-10 flex flex-col items-center text-center p-6">
-                <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[#2f6bff] text-white font-bold text-lg mb-5 shadow-md">
+            <Reveal key={num} delay={i * 0.12}>
+              <div
+                className="relative p-8 group"
+                style={{
+                  borderRight: i < steps.length - 1 ? "1px solid #DDE1E9" : undefined,
+                  background: "#fff",
+                }}
+              >
+                {/* blue top accent line on hover */}
+                <div
+                  className="absolute top-0 left-8 right-8 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "rgba(37,99,235,0.5)" }}
+                  aria-hidden="true"
+                />
+
+                {/* watermark number */}
+                <div
+                  className="absolute top-4 right-4 select-none pointer-events-none"
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif",
+                    fontWeight: 800,
+                    fontSize: "5rem",
+                    lineHeight: 1,
+                    color: "rgba(37,99,235,0.05)",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
                   {num}
                 </div>
-                <h3 className="text-base font-semibold text-[#111318] mb-2">
+
+                <div
+                  className="mb-5 inline-block px-3 py-1"
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "0.7rem",
+                    letterSpacing: "0.1em",
+                    color: "#2563EB",
+                    border: "1px solid rgba(37,99,235,0.25)",
+                    background: "rgba(37,99,235,0.05)",
+                  }}
+                >
+                  STEP {num}
+                </div>
+
+                <h3
+                  className="mb-3"
+                  style={{
+                    fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif",
+                    fontWeight: 700,
+                    fontSize: "1.25rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.02em",
+                    color: "#111827",
+                    lineHeight: 1.1,
+                  }}
+                >
                   {title}
                 </h3>
-                <p className="text-sm text-[#6b7280] leading-relaxed max-w-xs">
+                <p
+                  style={{
+                    fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                    fontSize: "0.875rem",
+                    color: "#64748B",
+                    lineHeight: 1.65,
+                  }}
+                >
                   {desc}
                 </p>
               </div>

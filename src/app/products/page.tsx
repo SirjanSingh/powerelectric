@@ -31,6 +31,18 @@ const bestForOptions: (BestFor | "All")[] = [
   "Industrial",
 ];
 
+/* shared input style */
+const inputStyle: React.CSSProperties = {
+  fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+  fontSize: "0.875rem",
+  color: "#111827",
+  background: "#F4F6F9",
+  border: "1px solid #DDE1E9",
+  borderRadius: 2,
+  outline: "none",
+  transition: "border-color 0.2s",
+};
+
 function ProductsGrid() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as Category) || "all";
@@ -56,9 +68,9 @@ function ProductsGrid() {
 
   return (
     <>
-      {/* Tabs */}
+      {/* Tab rail */}
       <div
-        className="flex gap-1 p-1 rounded-xl bg-[#f8f9fc] border border-[#e7eaf0] w-fit flex-wrap mb-8"
+        className="flex border border-[#DDE1E9] mb-8 w-fit"
         role="tablist"
         aria-label="Product categories"
       >
@@ -68,11 +80,20 @@ function ProductsGrid() {
             role="tab"
             aria-selected={activeTab === key}
             onClick={() => setActiveTab(key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeTab === key
-                ? "bg-white text-[#2f6bff] shadow-sm border border-[#e7eaf0]"
-                : "text-[#6b7280] hover:text-[#111318]"
-            }`}
+            className="px-5 py-2.5 transition-all"
+            style={{
+              fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+              fontSize: "0.8rem",
+              fontWeight: 500,
+              letterSpacing: "0.02em",
+              color: activeTab === key ? "#fff" : "#64748B",
+              background: activeTab === key ? "#2563EB" : "transparent",
+              borderTop: "none",
+              borderBottom: "none",
+              borderLeft: "none",
+              borderRight: key !== "parts" ? "1px solid #DDE1E9" : "none",
+              cursor: "pointer",
+            }}
           >
             {label}
           </button>
@@ -82,32 +103,49 @@ function ProductsGrid() {
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-8">
         <div className="relative flex items-center">
-          <Search size={15} className="absolute left-3 text-[#9ca3af]" />
+          <Search
+            size={13}
+            className="absolute left-3 pointer-events-none"
+            style={{ color: "#94A3B8" }}
+          />
           <input
             type="search"
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 pr-4 py-2 text-sm border border-[#e7eaf0] rounded-lg bg-white focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition"
+            className="pl-9 pr-4 py-2"
+            style={{ ...inputStyle }}
             aria-label="Search products"
+            onFocus={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor = "#2563EB")
+            }
+            onBlur={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor = "#DDE1E9")
+            }
           />
         </div>
         <div className="relative flex items-center">
           <select
             value={bestFor}
             onChange={(e) => setBestFor(e.target.value as BestFor | "All")}
-            className="appearance-none pl-3 pr-8 py-2 text-sm border border-[#e7eaf0] rounded-lg bg-white focus:outline-none focus:border-[#2f6bff] focus:ring-2 focus:ring-[#2f6bff]/20 transition cursor-pointer"
+            className="appearance-none pl-3 pr-8 py-2"
+            style={{ ...inputStyle, cursor: "pointer" }}
             aria-label="Filter by best for"
           >
             {bestForOptions.map((opt) => (
-              <option key={opt} value={opt}>
+              <option
+                key={opt}
+                value={opt}
+                style={{ background: "#F4F6F9", color: "#111827" }}
+              >
                 {opt === "All" ? "Best For: All" : `Best For: ${opt}`}
               </option>
             ))}
           </select>
           <ChevronDown
-            size={14}
-            className="absolute right-2.5 text-[#9ca3af] pointer-events-none"
+            size={13}
+            className="absolute right-2.5 pointer-events-none"
+            style={{ color: "#94A3B8" }}
           />
         </div>
         {(search || bestFor !== "All") && (
@@ -116,82 +154,187 @@ function ProductsGrid() {
               setSearch("");
               setBestFor("All");
             }}
-            className="text-xs text-[#6b7280] hover:text-[#2f6bff] underline"
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.65rem",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "#2563EB",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
           >
-            Clear filters
+            Clear
           </button>
         )}
       </div>
 
       {/* Results count */}
-      <p className="text-sm text-[#9ca3af] mb-5">
-        {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
+      <p
+        className="mb-5"
+        style={{
+          fontFamily: "var(--font-mono, monospace)",
+          fontSize: "0.65rem",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: "#94A3B8",
+        }}
+      >
+        {filtered.length} SKU{filtered.length !== 1 ? "s" : ""} found
       </p>
 
       {/* Grid */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-[#6b7280]">
-          <p className="text-4xl mb-3">🔍</p>
-          <p className="font-medium">No products match your filters.</p>
-          <p className="text-sm mt-1">
+        <div className="text-center py-20">
+          <p
+            style={{
+              fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif",
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              color: "#64748B",
+              marginBottom: 8,
+            }}
+          >
+            No Products Match
+          </p>
+          <p
+            style={{
+              fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+              fontSize: "0.875rem",
+              color: "#94A3B8",
+            }}
+          >
             Try clearing filters or contact us directly on WhatsApp.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#DDE1E9]">
           {filtered.map((product, i) => (
-            <Reveal key={product.id} delay={i * 0.04}>
-              <article className="card flex flex-col h-full">
-                <div className="relative h-40 bg-gradient-to-br from-[#f0f4ff] to-[#e8f0fe] flex items-center justify-center overflow-hidden">
+            <Reveal key={product.id} delay={i * 0.03}>
+              <article
+                className="flex flex-col h-full"
+                style={{ background: "#fff" }}
+              >
+                {/* image */}
+                <div
+                  className="relative h-40 flex items-center justify-center overflow-hidden"
+                  style={{
+                    background: "#EEF2F9",
+                    borderBottom: "1px solid #DDE1E9",
+                  }}
+                >
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-cover"
+                    className="object-cover opacity-75"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
                   />
-                  <span className="text-3xl z-0">
+                  <span className="text-3xl z-0 opacity-20" aria-hidden="true">
                     {product.category === "scooters"
                       ? "🛵"
                       : product.category === "batteries"
                         ? "🔋"
                         : "🔌"}
                   </span>
+                  <span
+                    className="absolute top-3 left-3 px-2 py-0.5"
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "#2563EB",
+                      background: "rgba(255,255,255,0.9)",
+                      border: "1px solid rgba(37,99,235,0.25)",
+                    }}
+                  >
+                    {categoryLabels[product.category]}
+                  </span>
                 </div>
 
                 <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <span className="text-xs font-medium bg-[#dde8ff] text-[#2f6bff] rounded-full px-2 py-0.5">
-                      {categoryLabels[product.category]}
-                    </span>
+                  {/* best-for tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
                     {product.bestFor.map((bf) => (
                       <span
                         key={bf}
-                        className="text-xs text-[#6b7280] bg-[#f8f9fc] border border-[#e7eaf0] rounded-full px-2 py-0.5"
+                        className="px-2 py-0.5"
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "0.6rem",
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: "#64748B",
+                          border: "1px solid #DDE1E9",
+                        }}
                       >
                         {bf}
                       </span>
                     ))}
                   </div>
 
-                  <h3 className="text-base font-semibold text-[#111318] mb-1">
+                  <h3
+                    className="mb-1"
+                    style={{
+                      fontFamily:
+                        "var(--font-display, 'Barlow Condensed'), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "1.1rem",
+                      textTransform: "uppercase",
+                      color: "#111827",
+                      letterSpacing: "0.01em",
+                    }}
+                  >
                     {product.name}
                   </h3>
-                  <p className="text-xs text-[#6b7280] mb-3 leading-relaxed line-clamp-2">
+                  <p
+                    className="mb-4 leading-relaxed line-clamp-2"
+                    style={{
+                      fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                      fontSize: "0.8rem",
+                      color: "#64748B",
+                    }}
+                  >
                     {product.shortDesc}
                   </p>
 
-                  <div className="flex flex-col gap-1.5 mb-4">
+                  {/* specs */}
+                  <div
+                    className="mb-4 flex-1"
+                    style={{ borderTop: "1px solid #DDE1E9" }}
+                  >
                     {product.specs.map((spec) => (
                       <div
                         key={spec.label}
-                        className="flex justify-between text-xs border-b border-[#f0f2f7] pb-1"
+                        className="flex justify-between py-1.5"
+                        style={{ borderBottom: "1px solid #DDE1E9" }}
                       >
-                        <span className="text-[#9ca3af]">{spec.label}</span>
-                        <span className="font-medium text-[#374151]">
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "0.6rem",
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            color: "#94A3B8",
+                          }}
+                        >
+                          {spec.label}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "0.7rem",
+                            color: "#111827",
+                            fontWeight: 500,
+                          }}
+                        >
                           {spec.value}
                         </span>
                       </div>
@@ -202,7 +345,7 @@ function ProductsGrid() {
                     href={productEnquiryUrl(product.name)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn wa-btn mt-auto text-sm justify-center"
+                    className="btn wa-btn text-sm justify-center"
                   >
                     <MessageCircle size={14} /> Ask on WhatsApp
                   </a>
@@ -214,7 +357,18 @@ function ProductsGrid() {
       )}
 
       {/* Disclaimer */}
-      <p className="mt-14 text-xs text-[#9ca3af] text-center max-w-2xl mx-auto border border-[#e7eaf0] rounded-xl p-4 bg-[#f8f9fc]">
+      <p
+        className="mt-14 text-center mx-auto px-5 py-4"
+        style={{
+          maxWidth: 560,
+          fontFamily: "var(--font-mono, monospace)",
+          fontSize: "0.6rem",
+          letterSpacing: "0.07em",
+          color: "#94A3B8",
+          border: "1px solid #DDE1E9",
+          background: "#F4F6F9",
+        }}
+      >
         Prototype images are for representation only. Final catalog will use
         authorized product media. Specifications are indicative. Contact us for
         exact datasheet and availability before ordering.
@@ -225,13 +379,25 @@ function ProductsGrid() {
 
 export default function ProductsPage() {
   return (
-    <div className="pt-24 pb-20">
+    <div
+      className="pt-24 pb-20"
+      style={{ background: "var(--color-bg)", minHeight: "100vh" }}
+    >
       <div className="container">
         <Reveal>
           <div className="mb-10">
-            <p className="section-label">Catalog</p>
-            <h1 className="section-title mt-1">Products &amp; Parts</h1>
-            <p className="text-[#6b7280] mt-2 max-w-xl">
+            <p className="section-label mb-2">Catalog</p>
+            <h1 className="section-title">Products &amp; Parts</h1>
+            <p
+              className="mt-3"
+              style={{
+                fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                fontSize: "1rem",
+                color: "#64748B",
+                maxWidth: 520,
+                lineHeight: 1.65,
+              }}
+            >
               Browse our stock of electric scooters, LFP/NMC battery packs,
               chargers, and parts. All categories available for bulk B2B supply
               with GST billing.
@@ -241,7 +407,17 @@ export default function ProductsPage() {
 
         <Suspense
           fallback={
-            <div className="text-[#9ca3af] text-sm">Loading catalog…</div>
+            <p
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "0.65rem",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#94A3B8",
+              }}
+            >
+              Loading catalog…
+            </p>
           }
         >
           <ProductsGrid />
