@@ -5,6 +5,7 @@ Command: npx gltfjsx@6.5.3 public\models\scooter.glb -o src\components\three\Sco
 
 import * as THREE from 'three'
 import type { JSX } from 'react'
+import { useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
@@ -25,11 +26,25 @@ type GLTFResult = GLTF & {
   }
 }
 
-export function Scooter(props: JSX.IntrinsicElements['group']) {
+type ScooterProps = JSX.IntrinsicElements['group'] & {
+  /** Optional override for the body paint color. Clones the material so the
+   * shared GLTF cache (and other instances) is never mutated. */
+  bodyColor?: string
+}
+
+export function Scooter({ bodyColor, ...props }: ScooterProps) {
   const { nodes, materials } = useGLTF('/models/scooter.glb') as unknown as GLTFResult
+
+  const bodyMaterial = useMemo(() => {
+    if (!bodyColor) return materials.Body
+    const cloned = materials.Body.clone()
+    cloned.color = new THREE.Color(bodyColor)
+    return cloned
+  }, [materials.Body, bodyColor])
+
   return (
     <group {...props} dispose={null}>
-      <mesh name="ScooterMesh" geometry={nodes.ScooterMesh.geometry} material={materials.Body} />
+      <mesh name="ScooterMesh" geometry={nodes.ScooterMesh.geometry} material={bodyMaterial} />
       <mesh name="ScooterMesh_1" geometry={nodes.ScooterMesh_1.geometry} material={materials.WheelSeat} />
       <mesh name="ScooterMesh_2" geometry={nodes.ScooterMesh_2.geometry} material={materials.Trim} />
       <mesh name="ScooterMesh_3" geometry={nodes.ScooterMesh_3.geometry} material={materials.Headlight} />

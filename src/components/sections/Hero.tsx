@@ -3,16 +3,18 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MessageCircle, ChevronRight } from "lucide-react";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";
+import { SceneErrorBoundary } from "@/components/three/SceneErrorBoundary";
+import { cn } from "@/lib/utils";
 
-// Load Three.js canvas client-side only
-const HeroCanvas = dynamic(
-  () => import("@/components/shared/HeroCanvas"),
-  { ssr: false }
-);
+// Load the R3F hero scene (particles + interactive scooter) client-side
+// only — it touches WebGL/window and must never run during SSR.
+const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
+  ssr: false,
+});
 
 const specs = [
   { label: "Min. Order", value: "5 UNITS" },
@@ -22,24 +24,10 @@ const specs = [
 ];
 
 export default function Hero() {
-  const [loaded, setLoaded] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const t = setTimeout(() => setLoaded(true), 80);
-    return () => clearTimeout(t);
-  }, []);
-
-  const fadeIn = (delay = 0) =>
-    reducedMotion
-      ? {}
-      : {
-          opacity: loaded ? 1 : 0,
-          transform: loaded ? "none" : "translateY(20px)",
-          transition: `opacity 0.6s ${delay}s ease, transform 0.6s ${delay}s ease`,
-        };
+  // Set imperatively by <Canvas onCreated> once the WebGL context exists —
+  // this is a callback prop, not a useEffect body, so calling setState here
+  // does not trigger cascading-render lint warnings.
+  const [sceneReady, setSceneReady] = useState(false);
 
   return (
     <section
@@ -47,8 +35,12 @@ export default function Hero() {
       style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center" }}
       aria-label="Hero"
     >
-      {/* ── Three.js particle background ── */}
-      <HeroCanvas />
+      {/* ── R3F particle field + interactive scooter ── */}
+      <div className="hero-canvas-wrap" aria-hidden="true">
+        <SceneErrorBoundary>
+          <HeroScene onReady={() => setSceneReady(true)} />
+        </SceneErrorBoundary>
+      </div>
 
       {/* ── Gradient vignette: left side for readability ── */}
       <div
@@ -84,7 +76,7 @@ export default function Hero() {
         <div className="flex flex-col lg:grid lg:grid-cols-[1fr_auto] lg:items-center gap-0">
 
           {/* ════ LEFT COPY ════ */}
-          <div className="max-w-[620px]" style={fadeIn(0)}>
+          <div className="max-w-[620px] hero-fade-in">
 
             {/* Overline */}
             <div className="hero-overline">
@@ -100,14 +92,18 @@ export default function Hero() {
             </h1>
 
             {/* Body */}
-            <p className="hero-body" style={fadeIn(0.15)}>
+            <p className="hero-body hero-fade-in" style={{ animationDelay: "0.15s" }}>
               {siteConfig.businessName} supplies electric scooters, LFP/NMC
               battery packs, chargers &amp; parts for high-volume buyers — with
               GST invoicing, verified stock, and rapid pan-India dispatch.
             </p>
 
             {/* Spec rail */}
-            <div className="hero-specs" role="list" style={fadeIn(0.22)}>
+            <div
+              className="hero-specs hero-fade-in"
+              role="list"
+              style={{ animationDelay: "0.22s" }}
+            >
               {specs.map(({ label, value }) => (
                 <div key={label} className="hero-spec-item" role="listitem">
                   <span className="hero-spec-label">{label}</span>
@@ -117,7 +113,7 @@ export default function Hero() {
             </div>
 
             {/* CTAs */}
-            <div className="hero-ctas" style={fadeIn(0.3)}>
+            <div className="hero-ctas hero-fade-in" style={{ animationDelay: "0.3s" }}>
               <a
                 href={genericEnquiryUrl()}
                 target="_blank"
@@ -134,40 +130,49 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ════ RIGHT IMAGE ════ */}
+          {/* ════ RIGHT VISUAL: static image fallback + live 3D scooter ════ */}
           <div
-            className="hero-image-wrap"
-            style={{
-              ...fadeIn(0.18),
-              transitionProperty: "opacity, transform",
-            }}
+            className="hero-image-wrap hero-fade-in"
+            style={{ animationDelay: "0.18s" }}
           >
             <div className="hero-vline" aria-hidden="true" />
             <div className="hero-image-inner">
-              {/* Corner markers */}
+              {/* Corner markers — kept as an overlay frame around the 3D
+                  visual so the industrial identity survives the switch
+                  from static photo to canvas. */}
               <span className="hero-corner hero-corner-tl" aria-hidden="true" />
               <span className="hero-corner hero-corner-tr" aria-hidden="true" />
               <span className="hero-corner hero-corner-bl" aria-hidden="true" />
               <span className="hero-corner hero-corner-br" aria-hidden="true" />
 
+              {/* Static fallback — visible until the R3F scene reports it
+                  has created a WebGL context, then crossfades out to
+                  reveal the canvas (which sits behind it in the stacking
+                  order) with the live scooter. Also the permanent fallback
+                  for reduced-motion / no-WebGL / scene-error cases, since
+                  in those cases sceneReady never flips true. */}
               <Image
                 src="/assets/scootyimg.png"
                 alt="Premium electric scooter for bulk fleet orders"
                 width={520}
                 height={390}
                 priority
-                className="hero-img"
+                className={cn("hero-img", sceneReady && "hero-img--faded")}
                 style={{ height: "auto" }}
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
               />
 
-              {/* Fallback */}
-              <div className="hero-img-fallback" aria-hidden="true">
-                <span style={{ fontSize: "4rem" }}>⚡</span>
-                <span className="hero-img-fallback-label">scootyimg.png</span>
-              </div>
+              {/* Fallback for a missing/broken image asset — only relevant
+                  pre-3D; once the scene is live it must stay hidden or it
+                  would show through the now-transparent (faded) photo. */}
+              {!sceneReady && (
+                <div className="hero-img-fallback" aria-hidden="true">
+                  <span style={{ fontSize: "4rem" }}>⚡</span>
+                  <span className="hero-img-fallback-label">scootyimg.png</span>
+                </div>
+              )}
 
               {/* Floating tag */}
               <div className="hero-tag" aria-hidden="true">
