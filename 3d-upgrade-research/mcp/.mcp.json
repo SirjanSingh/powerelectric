@@ -1,0 +1,20 @@
+{
+  "// NOTE": "Ready-to-use project-scope MCP config. Copy to the PROJECT ROOT as `.mcp.json` (or merge into an existing one), then restart Claude Code and approve the servers. Some servers need API keys — see 01-mcp-connectors.md. Remove any server you don't want. Windows note: npx-based servers run fine; Blender-MCP uses uvx and is configured for Claude Desktop instead (see claude-desktop-config.json).",
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {
+        "// CONTEXT7_API_KEY": "optional — higher rate limits; get one at context7.com"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn@latest", "mcp"]
+    }
+  }
+}

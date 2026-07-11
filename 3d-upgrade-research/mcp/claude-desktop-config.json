@@ -1,0 +1,9 @@
+{
+  "// NOTE": "Blender-MCP config for Claude DESKTOP (claude_desktop_config.json). On Windows this lives at %APPDATA%\\Claude\\claude_desktop_config.json. Blender-MCP needs: (1) uv/uvx installed (pip install uv), (2) the Blender add-on installed from the ahujasid/blender-mcp repo and enabled inside Blender, (3) Blender running with the add-on's socket server started. See prompts/04-blender-mcp-model.md.",
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    }
+  }
+}

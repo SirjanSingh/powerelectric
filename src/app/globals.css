@@ -2,22 +2,39 @@
 
 /* ── CSS Variables ─────────────────────────────────────── */
 :root {
-  --color-bg:           #F4F6F9;
+  /* ── Core palette ── */
+  --color-bg:           #F0F4FA;
   --color-surface:      #FFFFFF;
-  --color-border:       #DDE1E9;
-  --color-text:         #111827;
-  --color-muted:        #64748B;
-  --color-accent:       #2563EB;
-  --color-accent-light: rgba(37, 99, 235, 0.08);
+  --color-border:       #E2E8F0;
+  --color-text:         #0F172A;
+  --color-muted:        #475569;
+  --color-accent:       #0369A1;
+  --color-accent-light: rgba(3, 105, 161, 0.08);
+  --color-accent-bright:#0EA5E9;
   --color-green:        #059669;
+  --color-navy:         #0F172A;
+
+  /* ── Glassmorphism ── */
+  --glass-bg:           rgba(255, 255, 255, 0.72);
+  --glass-border:       rgba(255, 255, 255, 0.55);
+  --glass-blur:         16px;
+
+  /* ── Shadows ── */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.10), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.07);
   --glow-accent:
-    0 0 40px rgba(37, 99, 235, 0.15), 0 0 80px rgba(37, 99, 235, 0.08);
-  --radius-card: 4px;
-  --radius-btn:  3px;
+    0 0 40px rgba(3, 105, 161, 0.18), 0 0 80px rgba(3, 105, 161, 0.10);
+
+  /* ── Radii ── */
+  --radius-card: 12px;
+  --radius-btn:  8px;
+  --radius-pill: 999px;
+
+  /* ── Motion ── */
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ── Base ───────────────────────────────────────────────── */
@@ -88,15 +105,15 @@ h6 {
   border-color: var(--color-accent);
 }
 .btn-primary:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+  background: #025d91;
+  border-color: #025d91;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.28);
+  box-shadow: 0 6px 20px rgba(3, 105, 161, 0.32);
 }
 .btn-outline {
   background: transparent;
   color: var(--color-accent);
-  border-color: rgba(37, 99, 235, 0.4);
+  border-color: rgba(3, 105, 161, 0.4);
 }
 .btn-outline:hover {
   background: var(--color-accent-light);
@@ -127,9 +144,19 @@ h6 {
   overflow: hidden;
 }
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(3, 105, 161, 0.25);
+}
+
+/* ── Glass card ─────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-md);
-  border-color: rgba(245, 166, 35, 0.3);
 }
 
 /* ── Section Heading ─────────────────────────────────────── */
@@ -168,8 +195,8 @@ h6 {
   }
   50% {
     box-shadow:
-      0 0 60px rgba(37, 99, 235, 0.22),
-      0 0 100px rgba(37, 99, 235, 0.10);
+      0 0 60px rgba(3, 105, 161, 0.22),
+      0 0 100px rgba(3, 105, 161, 0.10);
   }
 }
 
@@ -212,9 +239,9 @@ h6 {
 
 /* ── Root ── */
 .hero-root {
-  background-color: #F4F6F9;
-  color: #111827;
-  background-image: linear-gradient(160deg, #EEF2F9 0%, #F4F6F9 50%, #F7F8FB 100%);
+  background-color: #F0F4FA;
+  color: #0F172A;
+  background-image: linear-gradient(160deg, #EAF0F8 0%, #F0F4FA 55%, #F5F8FC 100%);
 }
 
 /* ── Grain texture — very subtle on light bg ── */
@@ -233,8 +260,8 @@ h6 {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(3,105,161,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(3,105,161,0.04) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent 100%);
 }
@@ -247,7 +274,7 @@ h6 {
   width: 600px;
   height: 100%;
   pointer-events: none;
-  background: radial-gradient(ellipse 55% 60% at 80% 50%, rgba(37,99,235,0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse 55% 60% at 80% 50%, rgba(3,105,161,0.06) 0%, transparent 70%);
 }
 
 /* ── Overline ── */
@@ -260,7 +287,7 @@ h6 {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #2563EB;
+  color: #0369A1;
   margin-bottom: 20px;
 }
 .hero-overline-dot {
@@ -268,7 +295,7 @@ h6 {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #2563EB;
+  background: #0369A1;
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 @keyframes pulse-dot {
@@ -286,7 +313,7 @@ h6 {
   letter-spacing: -0.01em;
   text-transform: uppercase;
   margin: 0 0 28px;
-  color: #111827;
+  color: #0F172A;
 }
 .hero-h1-line {
   display: block;
@@ -294,7 +321,7 @@ h6 {
 }
 /* "Vehicles" — blue, slightly indented to break the grid */
 .hero-h1-accent {
-  color: #2563EB;
+  color: #0369A1;
   padding-left: clamp(12px, 2vw, 32px);
 }
 /* "At Scale." — smaller, muted, creates landing pad */
@@ -320,19 +347,27 @@ h6 {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  border-top: 1px solid #DDE1E9;
-  border-left: 1px solid #DDE1E9;
+  border-top: 1px solid #E2E8F0;
+  border-left: 1px solid #E2E8F0;
   margin-bottom: 36px;
   width: fit-content;
+  border-radius: 2px;
+  overflow: hidden;
 }
 .hero-spec-item {
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 10px 20px;
-  border-right: 1px solid #DDE1E9;
-  border-bottom: 1px solid #DDE1E9;
-  background: #fff;
+  border-right: 1px solid #E2E8F0;
+  border-bottom: 1px solid #E2E8F0;
+  background: rgba(255,255,255,0.80);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--transition);
+}
+.hero-spec-item:hover {
+  background: rgba(255,255,255,0.95);
 }
 .hero-spec-label {
   font-family: var(--font-mono, monospace);
@@ -345,7 +380,7 @@ h6 {
   font-family: var(--font-mono, monospace);
   font-size: 0.8rem;
   font-weight: 500;
-  color: #2563EB;
+  color: #0369A1;
   letter-spacing: 0.06em;
 }
 
@@ -360,7 +395,7 @@ h6 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #2563EB;
+  background: #0369A1;
   color: #fff;
   font-family: var(--font-body, 'Barlow'), sans-serif;
   font-size: 0.875rem;
@@ -375,7 +410,7 @@ h6 {
 }
 .hero-btn-primary:hover {
   background: #1d4ed8;
-  box-shadow: 0 6px 24px rgba(37,99,235,0.28);
+  box-shadow: 0 6px 24px rgba(3,105,161,0.28);
   transform: translateY(-1px);
 }
 .hero-btn-ghost {
@@ -395,7 +430,7 @@ h6 {
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 .hero-btn-ghost:hover {
-  color: #111827;
+  color: #0F172A;
   border-color: #94A3B8;
 }
 
@@ -432,7 +467,7 @@ h6 {
     top: 10%;
     height: 80%;
     width: 1px;
-    background: linear-gradient(to bottom, transparent, #1c2028 30%, #1c2028 70%, transparent);
+    background: linear-gradient(to bottom, transparent, #0F172A 30%, #0F172A 70%, transparent);
   }
 }
 
@@ -449,10 +484,10 @@ h6 {
   height: 16px;
   z-index: 2;
 }
-.hero-corner-tl { top: -6px;    left: -6px;   border-top: 2px solid #2563EB;  border-left: 2px solid #2563EB; }
-.hero-corner-tr { top: -6px;    right: -6px;  border-top: 2px solid #2563EB;  border-right: 2px solid #2563EB; }
-.hero-corner-bl { bottom: -6px; left: -6px;   border-bottom: 2px solid #2563EB; border-left: 2px solid #2563EB; }
-.hero-corner-br { bottom: -6px; right: -6px;  border-bottom: 2px solid #2563EB; border-right: 2px solid #2563EB; }
+.hero-corner-tl { top: -6px;    left: -6px;   border-top: 2px solid #0369A1;  border-left: 2px solid #0369A1; }
+.hero-corner-tr { top: -6px;    right: -6px;  border-top: 2px solid #0369A1;  border-right: 2px solid #0369A1; }
+.hero-corner-bl { bottom: -6px; left: -6px;   border-bottom: 2px solid #0369A1; border-left: 2px solid #0369A1; }
+.hero-corner-br { bottom: -6px; right: -6px;  border-bottom: 2px solid #0369A1; border-right: 2px solid #0369A1; }
 
 /* ── Image ── */
 .hero-img {
@@ -462,7 +497,7 @@ h6 {
   object-fit: cover;
   border-radius: 2px;
   border: 1px solid #DDE1E9;
-  box-shadow: 0 0 0 1px #DDE1E9, 0 24px 64px rgba(37,99,235,0.08), 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 0 0 1px #DDE1E9, 0 24px 64px rgba(3,105,161,0.08), 0 8px 24px rgba(0,0,0,0.06);
 }
 
 /* ── Fallback (when image is missing) ── */
@@ -506,7 +541,7 @@ h6 {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #2563EB;
+  background: #0369A1;
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 .hero-tag-text {

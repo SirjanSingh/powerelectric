@@ -7,19 +7,19 @@ import { Phone, Mail, MessageCircle, Zap } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#fff", borderTop: "1px solid #DDE1E9" }}>
+    <footer style={{ background: "#fff", borderTop: "1px solid var(--color-border)" }}>
       <div className="container py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div>
           <div className="flex items-center gap-2.5 mb-4">
-            <span className="flex items-center justify-center w-7 h-7 text-white" style={{ background: "#2563EB", borderRadius: 2 }}>
+            <span className="flex items-center justify-center w-7 h-7 text-white" style={{ background: "#0369A1", borderRadius: 2 }}>
               <Zap size={14} strokeWidth={2.5} />
             </span>
-            <span style={{ fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif", fontWeight: 700, fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: "#111827" }}>
+            <span style={{ fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif", fontWeight: 700, fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--color-text)" }}>
               {siteConfig.businessName}
             </span>
           </div>
-          <p className="mb-5 leading-relaxed" style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B" }}>
+          <p className="mb-5 leading-relaxed" style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)" }}>
             {siteConfig.tagline}. GST billing, bulk pricing, and fleet coordination across India.
           </p>
           <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn text-sm w-fit">
@@ -42,9 +42,9 @@ export default function Footer() {
             ].map((l) => (
               <li key={l.href}>
                 <Link href={l.href}
-                  style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
+                  style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#0369A1")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
                 >
                   {l.label}
                 </Link>
@@ -60,19 +60,19 @@ export default function Footer() {
           </h3>
           <div className="flex flex-col gap-3">
             <a href={`tel:${siteConfig.phoneRaw}`} className="flex items-center gap-2"
-              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#0369A1")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
             >
-              <Phone size={13} style={{ color: "#2563EB" }} />
+              <Phone size={13} style={{ color: "#0369A1" }} />
               {siteConfig.phone}
             </a>
             <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2"
-              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "#64748B", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#2563EB")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#64748B")}
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#0369A1")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
             >
-              <Mail size={13} style={{ color: "#2563EB" }} />
+              <Mail size={13} style={{ color: "#0369A1" }} />
               {siteConfig.email}
             </a>
             <p style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.8rem", color: "#94A3B8", lineHeight: 1.6 }}>
@@ -87,7 +87,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div style={{ borderTop: "1px solid #DDE1E9" }}>
+      <div style={{ borderTop: "1px solid var(--color-border)" }}>
         <div className="container flex flex-col md:flex-row items-center justify-between gap-2 py-5">
           <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.08em", color: "#94A3B8" }}>
             © {new Date().getFullYear()} {siteConfig.businessName}. All rights reserved.

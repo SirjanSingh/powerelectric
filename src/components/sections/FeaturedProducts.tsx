@@ -25,14 +25,14 @@ export default function FeaturedProducts() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#DDE1E9]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-border)]">
           {featured.map((product, i) => (
             <Reveal key={product.id} delay={i * 0.06}>
               <article className="flex flex-col h-full" style={{ background: "#fff" }}>
                 {/* image */}
                 <div
                   className="relative h-40 flex items-center justify-center overflow-hidden"
-                  style={{ background: "#EEF2F9", borderBottom: "1px solid #DDE1E9" }}
+                  style={{ background: "#EEF2F9", borderBottom: "1px solid var(--color-border)" }}
                 >
                   <Image
                     src={product.image}
@@ -52,9 +52,9 @@ export default function FeaturedProducts() {
                       fontSize: "0.6rem",
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
-                      color: "#2563EB",
+                      color: "#0369A1",
                       background: "rgba(255,255,255,0.9)",
-                      border: "1px solid rgba(37,99,235,0.25)",
+                      border: "1px solid rgba(3,105,161,0.25)",
                     }}
                   >
                     {categoryLabels[product.category]}
@@ -73,7 +73,7 @@ export default function FeaturedProducts() {
                           letterSpacing: "0.08em",
                           textTransform: "uppercase",
                           color: "#94A3B8",
-                          border: "1px solid #DDE1E9",
+                          border: "1px solid var(--color-border)",
                         }}
                       >
                         {bf}
@@ -88,7 +88,7 @@ export default function FeaturedProducts() {
                       fontWeight: 700,
                       fontSize: "1.1rem",
                       textTransform: "uppercase",
-                      color: "#111827",
+                      color: "var(--color-text)",
                       letterSpacing: "0.01em",
                     }}
                   >
@@ -96,22 +96,22 @@ export default function FeaturedProducts() {
                   </h3>
                   <p
                     className="mb-4 leading-relaxed line-clamp-2"
-                    style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.8rem", color: "#64748B" }}
+                    style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.8rem", color: "var(--color-muted)" }}
                   >
                     {product.shortDesc}
                   </p>
 
-                  <div className="mb-4" style={{ borderTop: "1px solid #DDE1E9" }}>
+                  <div className="mb-4" style={{ borderTop: "1px solid var(--color-border)" }}>
                     {product.specs.slice(0, 2).map((spec) => (
                       <div
                         key={spec.label}
                         className="flex justify-between py-1.5"
-                        style={{ borderBottom: "1px solid #DDE1E9" }}
+                        style={{ borderBottom: "1px solid var(--color-border)" }}
                       >
                         <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "#94A3B8" }}>
                           {spec.label}
                         </span>
-                        <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.7rem", color: "#111827", fontWeight: 500 }}>
+                        <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.7rem", color: "var(--color-text)", fontWeight: 500 }}>
                           {spec.value}
                         </span>
                       </div>
@@ -135,7 +135,7 @@ export default function FeaturedProducts() {
         <Reveal delay={0.1}>
           <div
             className="flex items-center justify-between mt-px px-6 py-4"
-            style={{ background: "#fff", border: "1px solid #DDE1E9", borderTop: "none" }}
+            style={{ background: "#fff", border: "1px solid var(--color-border)", borderTop: "none" }}
           >
             <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8" }}>
               {products.length} SKUs in catalog — full list on products page
@@ -143,7 +143,7 @@ export default function FeaturedProducts() {
             <Link
               href="/products"
               className="flex items-center gap-1.5"
-              style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "#2563EB", textDecoration: "none" }}
+              style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "#0369A1", textDecoration: "none" }}
             >
               View All <ArrowRight size={12} />
             </Link>

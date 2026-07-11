@@ -43,7 +43,7 @@ export default function Header() {
       className={cn(
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/95 backdrop-blur-md border-b border-[#DDE1E9] shadow-sm"
+          ? "bg-white/95 backdrop-blur-md border-b border-[var(--color-border)] shadow-sm"
           : "bg-white/80 backdrop-blur-sm",
       )}
     >
@@ -56,7 +56,7 @@ export default function Header() {
         >
           <span
             className="flex items-center justify-center w-7 h-7 text-white"
-            style={{ background: "#2563EB", borderRadius: 2 }}
+            style={{ background: "#0369A1", borderRadius: 2 }}
           >
             <Zap size={14} strokeWidth={2.5} />
           </span>
@@ -67,7 +67,7 @@ export default function Header() {
               fontSize: "1.15rem",
               textTransform: "uppercase",
               letterSpacing: "0.04em",
-              color: "#111827",
+              color: "var(--color-text)",
             }}
           >
             {siteConfig.businessName}
@@ -86,14 +86,14 @@ export default function Header() {
               className="px-4 py-2 text-sm font-medium transition-colors"
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                color: pathname === link.href ? "#2563EB" : "#64748B",
+                color: pathname === link.href ? "#0369A1" : "var(--color-muted)",
                 textDecoration: "none",
               }}
             >
               {link.label}
             </Link>
           ))}
-          <span className="h-4 w-px bg-[#DDE1E9] mx-2" aria-hidden="true" />
+          <span className="h-4 w-px bg-[var(--color-border)] mx-2" aria-hidden="true" />
           <a
             href={genericEnquiryUrl()}
             target="_blank"
@@ -106,7 +106,7 @@ export default function Header() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden ml-auto p-2 text-[#64748B] hover:text-[#111827] transition-colors"
+          className="md:hidden ml-auto p-2 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
@@ -124,7 +124,7 @@ export default function Header() {
         aria-modal="true"
         aria-label="Navigation"
         className={cn(
-          "md:hidden overflow-hidden transition-all duration-300 bg-white border-t border-[#DDE1E9]",
+          "md:hidden overflow-hidden transition-all duration-300 bg-white border-t border-[var(--color-border)]",
           menuOpen
             ? "max-h-80 opacity-100"
             : "max-h-0 opacity-0 pointer-events-none",
@@ -135,10 +135,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="px-4 py-3 text-sm font-medium transition-colors border-b border-[#DDE1E9] last:border-0"
+              className="px-4 py-3 text-sm font-medium transition-colors border-b border-[var(--color-border)] last:border-0"
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                color: pathname === link.href ? "#2563EB" : "#64748B",
+                color: pathname === link.href ? "#0369A1" : "var(--color-muted)",
                 textDecoration: "none",
               }}
             >
