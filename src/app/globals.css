@@ -563,12 +563,15 @@ h6 {
   position: relative;
   z-index: 1;
   opacity: 1;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
 }
 /* Crossfaded out once the 3D scene reports it is live, revealing the
-   canvas (positioned behind the whole hero content) underneath. */
+   canvas (positioned behind the whole hero content) underneath. The
+   delayed visibility flip fully removes it from paint/hit-testing once
+   the 0.6s opacity fade completes — only the live scooter remains. */
 .hero-img--faded {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 

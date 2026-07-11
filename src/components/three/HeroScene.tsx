@@ -7,6 +7,7 @@ import {
   Center,
   ContactShadows,
   Environment,
+  Lightformer,
   PresentationControls,
 } from "@react-three/drei";
 import * as THREE from "three";
@@ -225,7 +226,7 @@ function useScooterRigConfig() {
   useCompactCameraFov(isCompact);
   return isCompact
     ? { x: 0, y: -18, z: 34, scale: 3.3, isCompact }
-    : { x: 10, y: -4, z: 25, scale: 6, isCompact };
+    : { x: 10.5, y: -4, z: 25, scale: 4.8, isCompact };
 }
 
 /** Scooter rig: gentle drag-to-rotate (PresentationControls) plus a slow
@@ -333,7 +334,35 @@ export default function HeroScene({ onReady }: HeroSceneProps) {
       <directionalLight position={[20, 25, 15]} intensity={1.4} castShadow={false} />
       <directionalLight position={[-15, 5, -10]} intensity={0.35} color="#7DD3FC" />
       <Suspense fallback={null}>
-        <Environment preset="city" environmentIntensity={0.5} />
+        {/* Procedural studio environment built from Lightformers — fully
+            self-contained, unlike the HDR presets which fetch from an
+            external CDN at runtime and take the whole scene down (via the
+            error boundary) whenever that fetch fails. */}
+        <Environment resolution={64} environmentIntensity={0.5}>
+          <Lightformer
+            form="rect"
+            intensity={2.2}
+            position={[0, 5, 7]}
+            scale={[10, 5, 1]}
+            color="#ffffff"
+          />
+          <Lightformer
+            form="rect"
+            intensity={1.1}
+            position={[-7, 2, -3]}
+            rotation-y={Math.PI / 2}
+            scale={[7, 3, 1]}
+            color="#BFE3F7"
+          />
+          <Lightformer
+            form="rect"
+            intensity={0.9}
+            position={[7, 1, -2]}
+            rotation-y={-Math.PI / 2}
+            scale={[7, 3, 1]}
+            color="#ffffff"
+          />
+        </Environment>
         <ScooterRig />
       </Suspense>
       <ParticleField />

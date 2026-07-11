@@ -37,7 +37,11 @@ export default function Hero() {
     >
       {/* ── R3F particle field + interactive scooter ── */}
       <div className="hero-canvas-wrap" aria-hidden="true">
-        <SceneErrorBoundary>
+        {/* onError un-fades the static image: a scene can crash AFTER its
+            first frame (e.g. an in-scene asset fails to load once the
+            canvas is already live), and the photo must come back rather
+            than leave a blank hole where the canvas was. */}
+        <SceneErrorBoundary onError={() => setSceneReady(false)}>
           <HeroScene onReady={() => setSceneReady(true)} />
         </SceneErrorBoundary>
       </div>
@@ -49,7 +53,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 80% 90% at 25% 50%, color-mix(in srgb, var(--color-surface-alt) 94%, transparent) 0%, color-mix(in srgb, var(--color-surface-alt) 70%, transparent) 55%, color-mix(in srgb, var(--color-surface-alt) 20%, transparent) 80%, transparent 100%)",
+            "radial-gradient(ellipse 52% 100% at 20% 50%, color-mix(in srgb, var(--color-surface-alt) 94%, transparent) 0%, color-mix(in srgb, var(--color-surface-alt) 78%, transparent) 45%, color-mix(in srgb, var(--color-surface-alt) 24%, transparent) 72%, transparent 92%)",
           pointerEvents: "none",
           zIndex: 1,
         }}
