@@ -57,7 +57,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 80% 90% at 25% 50%, rgba(244,246,249,0.94) 0%, rgba(244,246,249,0.70) 55%, rgba(244,246,249,0.20) 80%, transparent 100%)",
+            "radial-gradient(ellipse 80% 90% at 25% 50%, color-mix(in srgb, var(--color-surface-alt) 94%, transparent) 0%, color-mix(in srgb, var(--color-surface-alt) 70%, transparent) 55%, color-mix(in srgb, var(--color-surface-alt) 20%, transparent) 80%, transparent 100%)",
           pointerEvents: "none",
           zIndex: 1,
         }}

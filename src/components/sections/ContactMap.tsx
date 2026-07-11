@@ -21,20 +21,20 @@ export default function ContactMap() {
         <Reveal>
           <div className="mb-12">
             <p className="section-label mb-2">Get In Touch</p>
-            <h2 className="section-title">We're Here for Bulk Orders</h2>
+            <h2 className="section-title">We&apos;re Here for Bulk Orders</h2>
           </div>
         </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* contact panel */}
           <Reveal delay={0.04}>
-            <div style={{ border: "1px solid var(--color-border)", background: "#fff", boxShadow: "var(--shadow-sm)" }}>
+            <div style={{ border: "1px solid var(--color-border)", background: "var(--color-surface)", boxShadow: "var(--shadow-sm)" }}>
               <div className="px-7 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--color-border)" }}>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#0369A1" }}>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-accent)" }}>
                   Contact &amp; Hours
                 </span>
                 <span className="flex items-center gap-1.5" style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", color: "var(--color-muted)" }}>
-                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#059669", display: "inline-block" }} aria-hidden="true" />
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-green)", display: "inline-block" }} aria-hidden="true" />
                   AVAILABLE
                 </span>
               </div>
@@ -53,14 +53,14 @@ export default function ContactMap() {
 
               {contactRows.map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="flex gap-4 px-7 py-4" style={{ borderBottom: "1px solid var(--color-border)" }}>
-                  <Icon size={14} className="shrink-0 mt-0.5" style={{ color: "#0369A1" }} />
+                  <Icon size={14} className="shrink-0 mt-0.5" style={{ color: "var(--color-accent)" }} />
                   <div>
-                    <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 3 }}>
+                    <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-subtle)", marginBottom: 3 }}>
                       {label}
                     </p>
                     {href ? (
                       <a href={href} style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-text)", textDecoration: "none" }}
-                        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#0369A1")}
+                        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")}
                         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text)")}
                       >
                         {value}
@@ -73,7 +73,7 @@ export default function ContactMap() {
               ))}
 
               <div className="flex gap-4 px-7 py-4" style={{ borderBottom: "1px solid var(--color-border)" }}>
-                <MapPin size={14} className="shrink-0 mt-0.5" style={{ color: "#0369A1" }} />
+                <MapPin size={14} className="shrink-0 mt-0.5" style={{ color: "var(--color-accent)" }} />
                 <p style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", lineHeight: 1.6 }}>
                   {siteConfig.address.line1}, {siteConfig.address.line2},{" "}
                   {siteConfig.address.city}, {siteConfig.address.state} — {siteConfig.address.pin}
@@ -81,13 +81,13 @@ export default function ContactMap() {
               </div>
 
               <div className="px-7 py-5" style={{ borderBottom: "1px solid var(--color-border)" }}>
-                <p className="mb-3" style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#94A3B8" }}>
+                <p className="mb-3" style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--color-subtle)" }}>
                   Service Areas
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {siteConfig.serviceAreas.map((area) => (
                     <span key={area} className="px-2.5 py-1"
-                      style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.75rem", color: "#0369A1", border: "1px solid rgba(3,105,161,0.25)", background: "rgba(3,105,161,0.05)" }}
+                      style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.75rem", color: "var(--color-accent)", border: "1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)", background: "color-mix(in srgb, var(--color-accent) 5%, transparent)" }}
                     >
                       {area}
                     </span>
@@ -118,9 +118,9 @@ export default function ContactMap() {
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ background: "#F4F6F9" }}>
-                  <MapPin size={32} style={{ color: "#0369A1", opacity: 0.3 }} />
-                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8" }}>
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ background: "var(--color-surface-alt)" }}>
+                  <MapPin size={32} style={{ color: "var(--color-accent)", opacity: 0.3 }} />
+                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-subtle)" }}>
                     Map embed coming soon
                   </p>
                 </div>

@@ -51,7 +51,7 @@ export default function Industries() {
                   alignItems: "center",
                   gap: 8,
                   padding: "10px 18px",
-                  background: "#fff",
+                  background: "var(--color-surface)",
                   border: "1px solid var(--color-border)",
                   borderRadius: 999,
                   boxShadow: "var(--shadow-sm)",
@@ -61,14 +61,14 @@ export default function Industries() {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(3,105,161,0.06)";
-                  el.style.borderColor = "rgba(3,105,161,0.3)";
+                  el.style.background = "color-mix(in srgb, var(--color-accent) 6%, transparent)";
+                  el.style.borderColor = "color-mix(in srgb, var(--color-accent) 30%, transparent)";
                   el.style.boxShadow = "var(--shadow-md)";
                   el.style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.background = "#fff";
+                  el.style.background = "var(--color-surface)";
                   el.style.borderColor = "var(--color-border)";
                   el.style.boxShadow = "var(--shadow-sm)";
                   el.style.transform = "";

@@ -10,8 +10,8 @@ export default function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp us"
-      className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25d366] text-white shadow-lg hover:scale-110 hover:bg-[#1ebe5d] transition-all duration-300"
-      style={{ boxShadow: "0 4px 20px rgba(37,211,102,.45)" }}
+      className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-whatsapp)] text-white shadow-lg hover:scale-110 hover:bg-[var(--color-whatsapp-hover)] transition-all duration-300"
+      style={{ boxShadow: "0 4px 20px color-mix(in srgb, var(--color-whatsapp) 45%, transparent)" }}
     >
       <MessageCircle size={26} strokeWidth={2} />
     </a>

@@ -7,12 +7,20 @@
   --color-surface:      #FFFFFF;
   --color-border:       #E2E8F0;
   --color-text:         #0F172A;
+  --color-text-inverse: #F8FAFC;
   --color-muted:        #475569;
+  --color-muted-2:      #64748B;
+  --color-subtle:       #94A3B8;
   --color-accent:       #0369A1;
   --color-accent-light: rgba(3, 105, 161, 0.08);
   --color-accent-bright:#0EA5E9;
   --color-green:        #059669;
+  --color-success:      #00D97E;
   --color-navy:         #0F172A;
+  --color-surface-alt:  #F4F6F9;
+  --color-surface-alt-2:#EEF2F9;
+  --color-whatsapp:       #25D366;
+  --color-whatsapp-hover: #1EBE5D;
 
   /* ── Glassmorphism ── */
   --glass-bg:           rgba(255, 255, 255, 0.72);
@@ -208,15 +216,38 @@ h6 {
 
 /* ── WhatsApp green ───────────────────────────────────────── */
 .wa-btn {
-  background: #25d366;
+  background: var(--color-whatsapp);
   color: #fff;
-  border-color: #25d366;
+  border-color: var(--color-whatsapp);
 }
 .wa-btn:hover {
-  background: #1ebe5d;
-  border-color: #1ebe5d;
+  background: var(--color-whatsapp-hover);
+  border-color: var(--color-whatsapp-hover);
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(37, 211, 102, 0.28);
+}
+
+/* ── Type scale (consolidated card heading/label sizes) ──── */
+.card-title {
+  font-family: var(--font-display, 'Barlow Condensed'), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+.card-sub {
+  font-family: var(--font-body, 'Barlow'), sans-serif;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+.meta-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-subtle);
 }
 
 /* scrollbar minimal */

@@ -24,7 +24,7 @@ export default function HowItWorks() {
   return (
     <section
       className="section-pad"
-      style={{ background: "#fff" }}
+      style={{ background: "var(--color-surface)" }}
       aria-labelledby="howitworks-heading"
     >
       <div className="container">
@@ -52,7 +52,7 @@ export default function HowItWorks() {
               right: "calc(33.333% - 1px)",
               height: 1,
               background:
-                "linear-gradient(to right, rgba(3,105,161,0.4) 0%, rgba(14,165,233,0.4) 50%, rgba(3,105,161,0.4) 100%)",
+                "linear-gradient(to right, color-mix(in srgb, var(--color-accent) 40%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 40%, transparent) 50%, color-mix(in srgb, var(--color-accent) 40%, transparent) 100%)",
               zIndex: 1,
             }}
           />
@@ -62,7 +62,7 @@ export default function HowItWorks() {
               <div
                 className="relative p-8 group cursor-default"
                 style={{
-                  background: i % 2 === 1 ? "var(--color-bg)" : "#fff",
+                  background: i % 2 === 1 ? "var(--color-bg)" : "var(--color-surface)",
                   border: "1px solid var(--color-border)",
                   borderLeft: i > 0 ? "none" : undefined,
                   borderRadius: i === 0 ? "12px 0 0 12px" : i === 2 ? "0 12px 12px 0" : 0,
@@ -71,11 +71,11 @@ export default function HowItWorks() {
                 }}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLElement).style.background =
-                    "rgba(3,105,161,0.03)")
+                    "color-mix(in srgb, var(--color-accent) 3%, transparent)")
                 }
                 onMouseLeave={(e) =>
                   ((e.currentTarget as HTMLElement).style.background =
-                    i % 2 === 1 ? "var(--color-bg)" : "#fff")
+                    i % 2 === 1 ? "var(--color-bg)" : "var(--color-surface)")
                 }
               >
                 {/* Top accent on hover */}
@@ -83,7 +83,7 @@ export default function HowItWorks() {
                   className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 pointer-events-none"
                   style={{
                     background:
-                      "linear-gradient(to right, transparent, #0369A1 30%, #0EA5E9 70%, transparent)",
+                      "linear-gradient(to right, transparent, var(--color-accent) 30%, var(--color-accent-bright) 70%, transparent)",
                     transition: "opacity 0.3s ease",
                   }}
                   aria-hidden="true"
@@ -96,9 +96,9 @@ export default function HowItWorks() {
                     width: 48,
                     height: 48,
                     borderRadius: "50%",
-                    background: "#0369A1",
+                    background: "var(--color-accent)",
                     flexShrink: 0,
-                    boxShadow: "0 4px 14px rgba(3,105,161,0.30)",
+                    boxShadow: "0 4px 14px color-mix(in srgb, var(--color-accent) 30%, transparent)",
                   }}
                 >
                   <span
@@ -106,7 +106,7 @@ export default function HowItWorks() {
                       fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif",
                       fontWeight: 800,
                       fontSize: "1rem",
-                      color: "#fff",
+                      color: "var(--color-surface)",
                       letterSpacing: "0.04em",
                       lineHeight: 1,
                     }}
@@ -125,7 +125,7 @@ export default function HowItWorks() {
                     fontWeight: 800,
                     fontSize: "5.5rem",
                     lineHeight: 1,
-                    color: "rgba(3,105,161,0.05)",
+                    color: "color-mix(in srgb, var(--color-accent) 5%, transparent)",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -133,15 +133,10 @@ export default function HowItWorks() {
                 </div>
 
                 <h3
-                  className="mb-3"
+                  className="mb-3 card-title"
                   style={{
-                    fontFamily:
-                      "var(--font-display, 'Barlow Condensed'), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "1.25rem",
                     textTransform: "uppercase",
                     letterSpacing: "0.02em",
-                    color: "var(--color-text)",
                     lineHeight: 1.1,
                   }}
                 >

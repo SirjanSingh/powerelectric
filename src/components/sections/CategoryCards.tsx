@@ -10,10 +10,10 @@ const categories = [
     desc: "Fleet-ready scooters with LFP/NMC battery options. Bulk pricing from 5 units. GST invoice provided.",
     href: "/products?tab=scooters",
     tag: "MOQ 5 UNITS",
-    accent: "#0369A1",
-    accentBg: "rgba(3,105,161,0.07)",
+    accent: "var(--color-accent)",
+    accentBg: "color-mix(in srgb, var(--color-accent) 7%, transparent)",
     gradientHover:
-      "linear-gradient(135deg, rgba(3,105,161,0.06) 0%, rgba(14,165,233,0.04) 100%)",
+      "linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 4%, transparent) 100%)",
   },
   {
     icon: BatteryCharging,
@@ -22,10 +22,10 @@ const categories = [
     desc: "LFP and NMC packs in 48V–72V. High-cycle replacement batteries for fleets. Swappable options available.",
     href: "/products?tab=batteries",
     tag: "LFP / NMC",
-    accent: "#0369A1",
-    accentBg: "rgba(3,105,161,0.07)",
+    accent: "var(--color-accent)",
+    accentBg: "color-mix(in srgb, var(--color-accent) 7%, transparent)",
     gradientHover:
-      "linear-gradient(135deg, rgba(3,105,161,0.06) 0%, rgba(14,165,233,0.04) 100%)",
+      "linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 4%, transparent) 100%)",
   },
   {
     icon: Wrench,
@@ -34,10 +34,10 @@ const categories = [
     desc: "Smart chargers, BLDC controllers, wiring harnesses, converters. OEM-spec parts for major EV platforms.",
     href: "/products?tab=parts",
     tag: "OEM SPEC",
-    accent: "#0369A1",
-    accentBg: "rgba(3,105,161,0.07)",
+    accent: "var(--color-accent)",
+    accentBg: "color-mix(in srgb, var(--color-accent) 7%, transparent)",
     gradientHover:
-      "linear-gradient(135deg, rgba(3,105,161,0.06) 0%, rgba(14,165,233,0.04) 100%)",
+      "linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 4%, transparent) 100%)",
   },
 ];
 
@@ -83,7 +83,7 @@ export default function CategoryCards() {
                   href={href}
                   className="group flex flex-col p-8 h-full no-underline relative overflow-hidden cursor-pointer"
                   style={{
-                    background: "#fff",
+                    background: "var(--color-surface)",
                     borderRight:
                       i < 2
                         ? "1px solid var(--color-border)"
@@ -117,7 +117,7 @@ export default function CategoryCards() {
                         fontFamily: "var(--font-mono, monospace)",
                         fontSize: "0.65rem",
                         letterSpacing: "0.1em",
-                        color: "#94A3B8",
+                        color: "var(--color-subtle)",
                       }}
                     >
                       {num}
@@ -134,7 +134,7 @@ export default function CategoryCards() {
                         justifyContent: "center",
                         transition: "background 0.25s ease",
                       }}
-                      className="group-hover:!bg-[rgba(3,105,161,0.14)]"
+                      className="group-hover:!bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]"
                     >
                       <Icon
                         size={20}
@@ -152,7 +152,7 @@ export default function CategoryCards() {
                       fontSize: "0.6rem",
                       letterSpacing: "0.12em",
                       color: accent,
-                      border: `1px solid rgba(3,105,161,0.25)`,
+                      border: `1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)`,
                       background: accentBg,
                       padding: "3px 8px",
                       borderRadius: 4,

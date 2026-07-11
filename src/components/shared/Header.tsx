@@ -56,7 +56,7 @@ export default function Header() {
         >
           <span
             className="flex items-center justify-center w-7 h-7 text-white"
-            style={{ background: "#0369A1", borderRadius: 2 }}
+            style={{ background: "var(--color-accent)", borderRadius: 2 }}
           >
             <Zap size={14} strokeWidth={2.5} />
           </span>
@@ -86,7 +86,7 @@ export default function Header() {
               className="px-4 py-2 text-sm font-medium transition-colors"
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                color: pathname === link.href ? "#0369A1" : "var(--color-muted)",
+                color: pathname === link.href ? "var(--color-accent)" : "var(--color-muted)",
                 textDecoration: "none",
               }}
             >
@@ -138,7 +138,7 @@ export default function Header() {
               className="px-4 py-3 text-sm font-medium transition-colors border-b border-[var(--color-border)] last:border-0"
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                color: pathname === link.href ? "#0369A1" : "var(--color-muted)",
+                color: pathname === link.href ? "var(--color-accent)" : "var(--color-muted)",
                 textDecoration: "none",
               }}
             >

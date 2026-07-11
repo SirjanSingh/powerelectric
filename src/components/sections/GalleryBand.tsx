@@ -12,8 +12,8 @@ export default function GalleryBand() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(3,105,161,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(3,105,161,0.03) 1px, transparent 1px)
+            linear-gradient(color-mix(in srgb, var(--color-accent) 3%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 3%, transparent) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
         }}
@@ -32,10 +32,10 @@ export default function GalleryBand() {
           <div className="relative mx-auto max-w-4xl">
             {/* corner markers */}
             {[
-              { style: { top: -8, left: -8, borderTop: "2px solid #0369A1", borderLeft: "2px solid #0369A1" } },
-              { style: { top: -8, right: -8, borderTop: "2px solid #0369A1", borderRight: "2px solid #0369A1" } },
-              { style: { bottom: -8, left: -8, borderBottom: "2px solid #0369A1", borderLeft: "2px solid #0369A1" } },
-              { style: { bottom: -8, right: -8, borderBottom: "2px solid #0369A1", borderRight: "2px solid #0369A1" } },
+              { style: { top: -8, left: -8, borderTop: "2px solid var(--color-accent)", borderLeft: "2px solid var(--color-accent)" } },
+              { style: { top: -8, right: -8, borderTop: "2px solid var(--color-accent)", borderRight: "2px solid var(--color-accent)" } },
+              { style: { bottom: -8, left: -8, borderBottom: "2px solid var(--color-accent)", borderLeft: "2px solid var(--color-accent)" } },
+              { style: { bottom: -8, right: -8, borderBottom: "2px solid var(--color-accent)", borderRight: "2px solid var(--color-accent)" } },
             ].map((c, i) => (
               <span
                 key={i}
@@ -48,7 +48,7 @@ export default function GalleryBand() {
             <div className="overflow-hidden" style={{ border: "1px solid var(--color-border)", boxShadow: "var(--shadow-md)" }}>
               <div
                 className="relative h-72 md:h-96 flex items-center justify-center"
-                style={{ background: "#EEF2F9" }}
+                style={{ background: "var(--color-surface-alt-2)" }}
               >
                 <Image
                   src="/assets/scooter-lineup.png"
@@ -60,7 +60,7 @@ export default function GalleryBand() {
                 />
                 <div className="z-0 text-center pointer-events-none">
                   <p className="text-5xl mb-3 opacity-30">🛵🛵🛵</p>
-                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", color: "#94A3B8" }}>
+                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", color: "var(--color-subtle)" }}>
                     scooter-lineup.png
                   </p>
                 </div>
@@ -68,16 +68,16 @@ export default function GalleryBand() {
 
               <div
                 className="px-5 py-3 flex items-center justify-between"
-                style={{ background: "#fff", borderTop: "1px solid var(--color-border)" }}
+                style={{ background: "var(--color-surface)", borderTop: "1px solid var(--color-border)" }}
               >
-                <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8" }}>
+                <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-subtle)" }}>
                   Representative models — contact us for OEM sourcing
                 </p>
                 <span
                   className="flex items-center gap-1.5"
-                  style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", color: "#0369A1" }}
+                  style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.1em", color: "var(--color-accent)" }}
                 >
-                  <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: "#0369A1" }} aria-hidden="true" />
+                  <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: "var(--color-accent)" }} aria-hidden="true" />
                   FLEET GRADE
                 </span>
               </div>

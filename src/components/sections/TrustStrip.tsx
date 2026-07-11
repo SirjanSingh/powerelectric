@@ -33,8 +33,8 @@ export default function TrustStrip() {
   return (
     <section
       style={{
-        background: "var(--color-navy, #0F172A)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "var(--color-navy, var(--color-text))",
+        borderBottom: "1px solid color-mix(in srgb, var(--color-surface) 6%, transparent)",
       }}
       aria-label="Trust indicators"
     >
@@ -47,13 +47,13 @@ export default function TrustStrip() {
               style={{
                 borderRight:
                   i < items.length - 1
-                    ? "1px solid rgba(255,255,255,0.07)"
+                    ? "1px solid color-mix(in srgb, var(--color-surface) 7%, transparent)"
                     : undefined,
                 transition: "background 0.2s",
               }}
               onMouseEnter={(e) =>
                 ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(255,255,255,0.04)")
+                  "color-mix(in srgb, var(--color-surface) 4%, transparent)")
               }
               onMouseLeave={(e) =>
                 ((e.currentTarget as HTMLElement).style.background =
@@ -66,7 +66,7 @@ export default function TrustStrip() {
                   width: 36,
                   height: 36,
                   borderRadius: 8,
-                  background: "rgba(14,165,233,0.15)",
+                  background: "color-mix(in srgb, var(--color-accent-bright) 15%, transparent)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -76,7 +76,7 @@ export default function TrustStrip() {
                 <Icon
                   size={16}
                   aria-hidden="true"
-                  style={{ color: "#0EA5E9" }}
+                  style={{ color: "var(--color-accent-bright)" }}
                 />
               </div>
 
@@ -89,7 +89,7 @@ export default function TrustStrip() {
                     fontWeight: 800,
                     fontSize: "1.6rem",
                     lineHeight: 1,
-                    color: "#F8FAFC",
+                    color: "var(--color-text-inverse)",
                     letterSpacing: "-0.01em",
                     textTransform: "uppercase",
                   }}
@@ -101,7 +101,7 @@ export default function TrustStrip() {
                     fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                     fontSize: "0.75rem",
                     fontWeight: 600,
-                    color: "#0EA5E9",
+                    color: "var(--color-accent-bright)",
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     marginTop: 2,
@@ -116,7 +116,7 @@ export default function TrustStrip() {
                 style={{
                   fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                   fontSize: "0.75rem",
-                  color: "rgba(148,163,184,0.9)",
+                  color: "color-mix(in srgb, var(--color-subtle) 90%, transparent)",
                   lineHeight: 1.5,
                 }}
               >

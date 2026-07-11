@@ -35,9 +35,9 @@ const bestForOptions: (BestFor | "All")[] = [
 const inputStyle: React.CSSProperties = {
   fontFamily: "var(--font-body, 'Barlow'), sans-serif",
   fontSize: "0.875rem",
-  color: "#111827",
-  background: "#F4F6F9",
-  border: "1px solid #DDE1E9",
+  color: "var(--color-text)",
+  background: "var(--color-surface-alt)",
+  border: "1px solid var(--color-border)",
   borderRadius: 2,
   outline: "none",
   transition: "border-color 0.2s",
@@ -70,7 +70,7 @@ function ProductsGrid() {
     <>
       {/* Tab rail */}
       <div
-        className="flex border border-[#DDE1E9] mb-8 w-fit"
+        className="flex border border-[var(--color-border)] mb-8 w-fit"
         role="tablist"
         aria-label="Product categories"
       >
@@ -86,12 +86,12 @@ function ProductsGrid() {
               fontSize: "0.8rem",
               fontWeight: 500,
               letterSpacing: "0.02em",
-              color: activeTab === key ? "#fff" : "#64748B",
-              background: activeTab === key ? "#2563EB" : "transparent",
+              color: activeTab === key ? "var(--color-surface)" : "var(--color-muted-2)",
+              background: activeTab === key ? "var(--color-accent)" : "transparent",
               borderTop: "none",
               borderBottom: "none",
               borderLeft: "none",
-              borderRight: key !== "parts" ? "1px solid #DDE1E9" : "none",
+              borderRight: key !== "parts" ? "1px solid var(--color-border)" : "none",
               cursor: "pointer",
             }}
           >
@@ -106,7 +106,7 @@ function ProductsGrid() {
           <Search
             size={13}
             className="absolute left-3 pointer-events-none"
-            style={{ color: "#94A3B8" }}
+            style={{ color: "var(--color-subtle)" }}
           />
           <input
             type="search"
@@ -117,10 +117,10 @@ function ProductsGrid() {
             style={{ ...inputStyle }}
             aria-label="Search products"
             onFocus={(e) =>
-              ((e.currentTarget as HTMLElement).style.borderColor = "#2563EB")
+              ((e.currentTarget as HTMLElement).style.borderColor = "var(--color-accent)")
             }
             onBlur={(e) =>
-              ((e.currentTarget as HTMLElement).style.borderColor = "#DDE1E9")
+              ((e.currentTarget as HTMLElement).style.borderColor = "var(--color-border)")
             }
           />
         </div>
@@ -136,7 +136,7 @@ function ProductsGrid() {
               <option
                 key={opt}
                 value={opt}
-                style={{ background: "#F4F6F9", color: "#111827" }}
+                style={{ background: "var(--color-surface-alt)", color: "var(--color-text)" }}
               >
                 {opt === "All" ? "Best For: All" : `Best For: ${opt}`}
               </option>
@@ -145,7 +145,7 @@ function ProductsGrid() {
           <ChevronDown
             size={13}
             className="absolute right-2.5 pointer-events-none"
-            style={{ color: "#94A3B8" }}
+            style={{ color: "var(--color-subtle)" }}
           />
         </div>
         {(search || bestFor !== "All") && (
@@ -159,7 +159,7 @@ function ProductsGrid() {
               fontSize: "0.65rem",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "#2563EB",
+              color: "var(--color-accent)",
               background: "none",
               border: "none",
               cursor: "pointer",
@@ -179,7 +179,7 @@ function ProductsGrid() {
           fontSize: "0.65rem",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: "#94A3B8",
+          color: "var(--color-subtle)",
         }}
       >
         {filtered.length} SKU{filtered.length !== 1 ? "s" : ""} found
@@ -194,7 +194,7 @@ function ProductsGrid() {
               fontSize: "1.5rem",
               fontWeight: 700,
               textTransform: "uppercase",
-              color: "#64748B",
+              color: "var(--color-muted-2)",
               marginBottom: 8,
             }}
           >
@@ -204,26 +204,26 @@ function ProductsGrid() {
             style={{
               fontFamily: "var(--font-body, 'Barlow'), sans-serif",
               fontSize: "0.875rem",
-              color: "#94A3B8",
+              color: "var(--color-subtle)",
             }}
           >
             Try clearing filters or contact us directly on WhatsApp.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#DDE1E9]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-border)]">
           {filtered.map((product, i) => (
             <Reveal key={product.id} delay={i * 0.03}>
               <article
                 className="flex flex-col h-full"
-                style={{ background: "#fff" }}
+                style={{ background: "var(--color-surface)" }}
               >
                 {/* image */}
                 <div
                   className="relative h-40 flex items-center justify-center overflow-hidden"
                   style={{
-                    background: "#EEF2F9",
-                    borderBottom: "1px solid #DDE1E9",
+                    background: "var(--color-surface-alt-2)",
+                    borderBottom: "1px solid var(--color-border)",
                   }}
                 >
                   <Image
@@ -250,9 +250,9 @@ function ProductsGrid() {
                       fontSize: "0.6rem",
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
-                      color: "#2563EB",
-                      background: "rgba(255,255,255,0.9)",
-                      border: "1px solid rgba(37,99,235,0.25)",
+                      color: "var(--color-accent)",
+                      background: "color-mix(in srgb, var(--color-surface) 90%, transparent)",
+                      border: "1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)",
                     }}
                   >
                     {categoryLabels[product.category]}
@@ -271,8 +271,8 @@ function ProductsGrid() {
                           fontSize: "0.6rem",
                           letterSpacing: "0.08em",
                           textTransform: "uppercase",
-                          color: "#64748B",
-                          border: "1px solid #DDE1E9",
+                          color: "var(--color-muted-2)",
+                          border: "1px solid var(--color-border)",
                         }}
                       >
                         {bf}
@@ -281,14 +281,9 @@ function ProductsGrid() {
                   </div>
 
                   <h3
-                    className="mb-1"
+                    className="mb-1 card-title"
                     style={{
-                      fontFamily:
-                        "var(--font-display, 'Barlow Condensed'), sans-serif",
-                      fontWeight: 700,
-                      fontSize: "1.1rem",
                       textTransform: "uppercase",
-                      color: "#111827",
                       letterSpacing: "0.01em",
                     }}
                   >
@@ -299,7 +294,7 @@ function ProductsGrid() {
                     style={{
                       fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                       fontSize: "0.8rem",
-                      color: "#64748B",
+                      color: "var(--color-muted-2)",
                     }}
                   >
                     {product.shortDesc}
@@ -308,13 +303,13 @@ function ProductsGrid() {
                   {/* specs */}
                   <div
                     className="mb-4 flex-1"
-                    style={{ borderTop: "1px solid #DDE1E9" }}
+                    style={{ borderTop: "1px solid var(--color-border)" }}
                   >
                     {product.specs.map((spec) => (
                       <div
                         key={spec.label}
                         className="flex justify-between py-1.5"
-                        style={{ borderBottom: "1px solid #DDE1E9" }}
+                        style={{ borderBottom: "1px solid var(--color-border)" }}
                       >
                         <span
                           style={{
@@ -322,7 +317,7 @@ function ProductsGrid() {
                             fontSize: "0.6rem",
                             letterSpacing: "0.08em",
                             textTransform: "uppercase",
-                            color: "#94A3B8",
+                            color: "var(--color-subtle)",
                           }}
                         >
                           {spec.label}
@@ -331,7 +326,7 @@ function ProductsGrid() {
                           style={{
                             fontFamily: "var(--font-mono, monospace)",
                             fontSize: "0.7rem",
-                            color: "#111827",
+                            color: "var(--color-text)",
                             fontWeight: 500,
                           }}
                         >
@@ -364,9 +359,9 @@ function ProductsGrid() {
           fontFamily: "var(--font-mono, monospace)",
           fontSize: "0.6rem",
           letterSpacing: "0.07em",
-          color: "#94A3B8",
-          border: "1px solid #DDE1E9",
-          background: "#F4F6F9",
+          color: "var(--color-subtle)",
+          border: "1px solid var(--color-border)",
+          background: "var(--color-surface-alt)",
         }}
       >
         Prototype images are for representation only. Final catalog will use
@@ -393,7 +388,7 @@ export default function ProductsPage() {
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                 fontSize: "1rem",
-                color: "#64748B",
+                color: "var(--color-muted-2)",
                 maxWidth: 520,
                 lineHeight: 1.65,
               }}
@@ -413,7 +408,7 @@ export default function ProductsPage() {
                 fontSize: "0.65rem",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#94A3B8",
+                color: "var(--color-subtle)",
               }}
             >
               Loading catalog…

@@ -45,7 +45,7 @@ export default function WhyUs() {
               Built for Serious Buyers.
             </h2>
             <p className="section-sub">
-              We don't sell to hobbyists. We supply fleets, dealers and
+              We don&apos;t sell to hobbyists. We supply fleets, dealers and
               institutions who need volume, documentation, and reliable
               post-order support.
             </p>
@@ -58,7 +58,7 @@ export default function WhyUs() {
               <div
                 className="p-8 group relative overflow-hidden cursor-default"
                 style={{
-                  background: "#fff",
+                  background: "var(--color-surface)",
                   border: "1px solid var(--color-border)",
                   borderRadius: "var(--radius-card)",
                   boxShadow: "var(--shadow-sm)",
@@ -69,7 +69,7 @@ export default function WhyUs() {
                   const el = e.currentTarget as HTMLElement;
                   el.style.boxShadow = "var(--shadow-lg)";
                   el.style.transform = "translateY(-3px)";
-                  el.style.borderColor = "rgba(3,105,161,0.25)";
+                  el.style.borderColor = "color-mix(in srgb, var(--color-accent) 25%, transparent)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
@@ -83,7 +83,7 @@ export default function WhyUs() {
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
                   style={{
                     background:
-                      "linear-gradient(135deg, rgba(3,105,161,0.04) 0%, rgba(14,165,233,0.02) 100%)",
+                      "linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 4%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 2%, transparent) 100%)",
                     transition: "opacity 0.3s ease",
                     borderRadius: "inherit",
                   }}
@@ -95,7 +95,7 @@ export default function WhyUs() {
                   className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 pointer-events-none"
                   style={{
                     background:
-                      "linear-gradient(to right, transparent, #0369A1 30%, #0EA5E9 70%, transparent)",
+                      "linear-gradient(to right, transparent, var(--color-accent) 30%, var(--color-accent-bright) 70%, transparent)",
                     transition: "opacity 0.3s ease",
                   }}
                   aria-hidden="true"
@@ -108,7 +108,7 @@ export default function WhyUs() {
                       fontFamily: "var(--font-mono, monospace)",
                       fontSize: "0.65rem",
                       letterSpacing: "0.12em",
-                      color: "#94A3B8",
+                      color: "var(--color-subtle)",
                     }}
                   >
                     {num}
@@ -120,30 +120,24 @@ export default function WhyUs() {
                       width: 40,
                       height: 40,
                       borderRadius: 10,
-                      background: "rgba(3,105,161,0.08)",
+                      background: "color-mix(in srgb, var(--color-accent) 8%, transparent)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       transition: "background 0.25s ease",
                     }}
-                    className="group-hover:!bg-[rgba(3,105,161,0.14)]"
+                    className="group-hover:!bg-[color-mix(in_srgb,var(--color-accent)_14%,transparent)]"
                   >
-                    <Icon size={18} aria-hidden="true" style={{ color: "#0369A1" }} />
+                    <Icon size={18} aria-hidden="true" style={{ color: "var(--color-accent)" }} />
                   </div>
                 </div>
 
                 {/* Title */}
                 <h3
-                  className="mb-3 relative"
+                  className="mb-3 relative card-title"
                   style={{
-                    fontFamily:
-                      "var(--font-display, 'Barlow Condensed'), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "1.2rem",
                     textTransform: "uppercase",
                     letterSpacing: "0.02em",
-                    color: "var(--color-text)",
-                    lineHeight: 1.15,
                   }}
                 >
                   {title}

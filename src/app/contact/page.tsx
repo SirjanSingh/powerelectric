@@ -44,9 +44,9 @@ const faqs = [
 const fieldStyle: React.CSSProperties = {
   fontFamily: "var(--font-body, 'Barlow'), sans-serif",
   fontSize: "0.875rem",
-  color: "#111827",
-  background: "#fff",
-  border: "1px solid #DDE1E9",
+  color: "var(--color-text)",
+  background: "var(--color-surface)",
+  border: "1px solid var(--color-border)",
   borderRadius: 2,
   outline: "none",
   width: "100%",
@@ -59,7 +59,7 @@ const labelStyle: React.CSSProperties = {
   fontSize: "0.6rem",
   letterSpacing: "0.12em",
   textTransform: "uppercase" as const,
-  color: "#94A3B8",
+  color: "var(--color-subtle)",
   display: "block",
   marginBottom: 6,
 };
@@ -67,7 +67,7 @@ const labelStyle: React.CSSProperties = {
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ borderBottom: "1px solid #DDE1E9" }}>
+    <div style={{ borderBottom: "1px solid var(--color-border)" }}>
       <button
         className="flex items-center justify-between w-full py-4 text-left gap-4 group"
         onClick={() => setOpen((v) => !v)}
@@ -79,16 +79,16 @@ function FAQItem({ q, a }: { q: string; a: string }) {
             fontFamily: "var(--font-body, 'Barlow'), sans-serif",
             fontSize: "0.875rem",
             fontWeight: 600,
-            color: open ? "#2563EB" : "#111827",
+            color: open ? "var(--color-accent)" : "var(--color-text)",
             transition: "color 0.2s",
           }}
         >
           {q}
         </span>
         {open ? (
-          <ChevronUp size={15} style={{ color: "#2563EB", flexShrink: 0 }} />
+          <ChevronUp size={15} style={{ color: "var(--color-accent)", flexShrink: 0 }} />
         ) : (
-          <ChevronDown size={15} style={{ color: "#94A3B8", flexShrink: 0 }} />
+          <ChevronDown size={15} style={{ color: "var(--color-subtle)", flexShrink: 0 }} />
         )}
       </button>
       {open && (
@@ -97,7 +97,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
           style={{
             fontFamily: "var(--font-body, 'Barlow'), sans-serif",
             fontSize: "0.875rem",
-            color: "#64748B",
+            color: "var(--color-muted-2)",
             lineHeight: 1.65,
           }}
         >
@@ -144,9 +144,9 @@ export default function ContactPage() {
   const hasMapUrl = siteConfig.googleMapsEmbedUrl.length > 0;
 
   const focusBorder = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    ((e.currentTarget as HTMLElement).style.borderColor = "#2563EB");
+    ((e.currentTarget as HTMLElement).style.borderColor = "var(--color-accent)");
   const blurBorder = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    ((e.currentTarget as HTMLElement).style.borderColor = "#DDE1E9");
+    ((e.currentTarget as HTMLElement).style.borderColor = "var(--color-border)");
 
   return (
     <div
@@ -163,12 +163,12 @@ export default function ContactPage() {
               style={{
                 fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                 fontSize: "1rem",
-                color: "#64748B",
+                color: "var(--color-muted-2)",
                 maxWidth: 480,
                 lineHeight: 1.65,
               }}
             >
-              Fill in your requirement below and we'll open WhatsApp with a
+              Fill in your requirement below and we&apos;ll open WhatsApp with a
               pre-filled message for rapid follow-up. No backend, no delays.
             </p>
           </div>
@@ -197,11 +197,11 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Quote form */}
           <Reveal delay={0.04}>
-            <div style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}>
+            <div style={{ border: "1px solid var(--color-border)", background: "var(--color-surface-alt)" }}>
               {/* form header */}
               <div
                 className="px-7 py-4"
-                style={{ borderBottom: "1px solid #DDE1E9" }}
+                style={{ borderBottom: "1px solid var(--color-border)" }}
               >
                 <span
                   style={{
@@ -209,7 +209,7 @@ export default function ContactPage() {
                     fontSize: "0.65rem",
                     letterSpacing: "0.12em",
                     textTransform: "uppercase",
-                    color: "#2563EB",
+                    color: "var(--color-accent)",
                   }}
                 >
                   Bulk Quote Request
@@ -226,7 +226,7 @@ export default function ContactPage() {
                         fontSize: "2rem",
                         fontWeight: 700,
                         textTransform: "uppercase",
-                        color: "#00d97e",
+                        color: "var(--color-success)",
                         marginBottom: 8,
                       }}
                     >
@@ -237,7 +237,7 @@ export default function ContactPage() {
                       style={{
                         fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                         fontSize: "0.875rem",
-                        color: "#64748B",
+                        color: "var(--color-muted-2)",
                       }}
                     >
                       Your message has been pre-filled. Send it to connect with
@@ -344,7 +344,7 @@ export default function ContactPage() {
                           <option
                             key={c}
                             value={c}
-                            style={{ background: "#F4F6F9", color: "#111827" }}
+                            style={{ background: "var(--color-surface-alt)", color: "var(--color-text)" }}
                           >
                             {c}
                           </option>
@@ -382,7 +382,7 @@ export default function ContactPage() {
                         fontFamily: "var(--font-mono, monospace)",
                         fontSize: "0.6rem",
                         letterSpacing: "0.08em",
-                        color: "#94A3B8",
+                        color: "var(--color-subtle)",
                       }}
                     >
                       Submitting opens WhatsApp with a pre-filled message. No
@@ -400,7 +400,7 @@ export default function ContactPage() {
             <Reveal delay={0.08}>
               <div
                 className="overflow-hidden"
-                style={{ border: "1px solid #DDE1E9", height: 256 }}
+                style={{ border: "1px solid var(--color-border)", height: 256 }}
               >
                 {hasMapUrl ? (
                   <iframe
@@ -419,11 +419,11 @@ export default function ContactPage() {
                 ) : (
                   <div
                     className="w-full h-full flex flex-col items-center justify-center gap-2"
-                    style={{ background: "#F4F6F9" }}
+                    style={{ background: "var(--color-surface-alt)" }}
                   >
                     <MapPin
                       size={24}
-                      style={{ color: "#2563EB", opacity: 0.35 }}
+                      style={{ color: "var(--color-accent)", opacity: 0.35 }}
                     />
                     <p
                       style={{
@@ -431,7 +431,7 @@ export default function ContactPage() {
                         fontSize: "0.6rem",
                         letterSpacing: "0.1em",
                         textTransform: "uppercase",
-                        color: "#94A3B8",
+                        color: "var(--color-subtle)",
                       }}
                     >
                       Update googleMapsEmbedUrl in src/config/site.ts
@@ -444,22 +444,22 @@ export default function ContactPage() {
             {/* Address + hours */}
             <Reveal delay={0.1}>
               <div
-                style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}
+                style={{ border: "1px solid var(--color-border)", background: "var(--color-surface-alt)" }}
               >
                 <div
                   className="flex gap-3 px-5 py-4"
-                  style={{ borderBottom: "1px solid #DDE1E9" }}
+                  style={{ borderBottom: "1px solid var(--color-border)" }}
                 >
                   <MapPin
                     size={14}
                     className="shrink-0 mt-0.5"
-                    style={{ color: "#2563EB" }}
+                    style={{ color: "var(--color-accent)" }}
                   />
                   <p
                     style={{
                       fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                       fontSize: "0.875rem",
-                      color: "#64748B",
+                      color: "var(--color-muted-2)",
                     }}
                   >
                     {siteConfig.address.line1}, {siteConfig.address.line2},{" "}
@@ -470,13 +470,13 @@ export default function ContactPage() {
                   <Clock
                     size={14}
                     className="shrink-0 mt-0.5"
-                    style={{ color: "#2563EB" }}
+                    style={{ color: "var(--color-accent)" }}
                   />
                   <p
                     style={{
                       fontFamily: "var(--font-body, 'Barlow'), sans-serif",
                       fontSize: "0.875rem",
-                      color: "#64748B",
+                      color: "var(--color-muted-2)",
                     }}
                   >
                     {siteConfig.hours}
@@ -488,11 +488,11 @@ export default function ContactPage() {
             {/* FAQ */}
             <Reveal delay={0.12}>
               <div
-                style={{ border: "1px solid #DDE1E9", background: "#F4F6F9" }}
+                style={{ border: "1px solid var(--color-border)", background: "var(--color-surface-alt)" }}
               >
                 <div
                   className="px-6 py-4"
-                  style={{ borderBottom: "1px solid #DDE1E9" }}
+                  style={{ borderBottom: "1px solid var(--color-border)" }}
                 >
                   <span
                     style={{
@@ -500,7 +500,7 @@ export default function ContactPage() {
                       fontSize: "0.65rem",
                       letterSpacing: "0.12em",
                       textTransform: "uppercase",
-                      color: "#2563EB",
+                      color: "var(--color-accent)",
                     }}
                   >
                     Common Questions
