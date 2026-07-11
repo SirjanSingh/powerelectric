@@ -1,0 +1,26 @@
+3D Model: scooter.glb
+======================
+
+Source: "Vespa" by Jasmine Roberts
+Original download page: https://poly.pizza/m/blGLclvvdEM
+Direct asset URL: https://static.poly.pizza/b771a0df-3c43-42a9-b0dd-6e3d10a83b31.glb
+Distributed via Poly Pizza (https://poly.pizza)
+
+License: Creative Commons Attribution 3.0 (CC-BY 3.0)
+https://creativecommons.org/licenses/by/3.0/
+
+Attribution: "Vespa" by Jasmine Roberts, licensed under CC-BY 3.0, via Poly Pizza.
+
+Modifications made for this project:
+- Imported into Blender 5.1 (headless/background mode) and re-exported.
+- Materials renamed for clarity/configurator use: Material.001 -> Body,
+  Material.002 -> WheelSeat, Material.003 -> Trim, Material.004 -> Headlight,
+  Material.005 -> Mirror. Mesh renamed to ScooterMesh, object renamed to Scooter.
+- Optimized and Draco-compressed with @gltf-transform/cli
+  (`optimize --compress draco --join false --palette false --instance false --simplify false`)
+  to reduce file size from ~90 KB to ~12 KB while preserving named
+  meshes/materials so individual panels (body vs. wheels/seat/trim) can be
+  recolored independently by a configurator.
+
+No textures are used in this model; all surfaces are flat-shaded PBR
+materials driven by baseColorFactor.
