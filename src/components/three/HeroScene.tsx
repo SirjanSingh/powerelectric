@@ -226,12 +226,25 @@ function useScooterRigConfig() {
   useCompactCameraFov(isCompact);
   return isCompact
     ? { x: 0, y: -18, z: 34, scale: 3.3, isCompact }
-    : { x: 10.5, y: -4, z: 25, scale: 4.8, isCompact };
+    : { x: 9.5, y: -4, z: 25, scale: 4.8, isCompact };
+}
+
+/** Mounts only once every sibling inside the same Suspense boundary (i.e.
+ * the GLB-loading <Scooter>) has resolved — so this signal fires exactly
+ * when the scooter is actually about to draw, not merely when the WebGL
+ * context exists. If the model fetch hangs or fails, this never mounts and
+ * the static fallback image never fades out. */
+function ReadySignal({ onReady }: { onReady?: () => void }) {
+  useEffect(() => {
+    onReady?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return null;
 }
 
 /** Scooter rig: gentle drag-to-rotate (PresentationControls) plus a slow
  * idle auto-rotate that pauses while the user is actively dragging. */
-function ScooterRig() {
+function ScooterRig({ onReady }: { onReady?: () => void }) {
   const idleGroup = useRef<THREE.Group>(null!);
   const dragging = useRef(false);
   const rig = useScooterRigConfig();
@@ -273,6 +286,7 @@ function ScooterRig() {
                 <Scooter bodyColor={SCOOTER_BODY_COLOR} />
               </Center>
             </group>
+            <ReadySignal onReady={onReady} />
           </Suspense>
         </group>
       </PresentationControls>
@@ -326,7 +340,6 @@ export default function HeroScene({ onReady }: HeroSceneProps) {
       dpr={[1, 2]}
       camera={{ position: [0, 0, 55], fov: 60, near: 0.1, far: 1000 }}
       gl={{ antialias: true, alpha: true }}
-      onCreated={() => onReady?.()}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
     >
       <AdaptiveDpr pixelated />
@@ -363,7 +376,7 @@ export default function HeroScene({ onReady }: HeroSceneProps) {
             color="#ffffff"
           />
         </Environment>
-        <ScooterRig />
+        <ScooterRig onReady={onReady} />
       </Suspense>
       <ParticleField />
     </Canvas>
