@@ -711,5 +711,39 @@ h6 {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, #DDE1E9 20%, #DDE1E9 80%, transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-border) 20%,
+    var(--color-border) 80%,
+    transparent
+  );
+}
+
+/* Loading placeholder fill. Used by ProductGridSkeleton. */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-alt-2) 25%,
+    var(--color-surface-alt) 37%,
+    var(--color-surface-alt-2) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+  border-radius: 3px;
+}
+
+@keyframes skeleton-sweep {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
 }

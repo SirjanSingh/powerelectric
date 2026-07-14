@@ -2,7 +2,6 @@
 
 import { useState, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { MessageCircle, Search, ChevronDown } from "lucide-react";
 import {
   products,
@@ -12,6 +11,8 @@ import {
 } from "@/data/products";
 import { productEnquiryUrl } from "@/lib/whatsapp";
 import Reveal from "@/components/shared/Reveal";
+import ProductImage from "@/components/shared/ProductImage";
+import ProductGridSkeleton from "@/components/shared/ProductGridSkeleton";
 
 const tabs: { key: Category | "all"; label: string }[] = [
   { key: "all", label: "All Products" },
@@ -220,29 +221,17 @@ function ProductsGrid() {
               >
                 {/* image */}
                 <div
-                  className="relative h-40 flex items-center justify-center overflow-hidden"
+                  className="relative h-44 flex items-center justify-center overflow-hidden p-4"
                   style={{
                     background: "var(--color-surface-alt-2)",
                     borderBottom: "1px solid var(--color-border)",
                   }}
                 >
-                  <Image
+                  <ProductImage
                     src={product.image}
                     alt={product.name}
-                    fill
-                    className="object-cover opacity-75"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
+                    category={product.category}
                   />
-                  <span className="text-3xl z-0 opacity-20" aria-hidden="true">
-                    {product.category === "scooters"
-                      ? "🛵"
-                      : product.category === "batteries"
-                        ? "🔋"
-                        : "🔌"}
-                  </span>
                   <span
                     className="absolute top-3 left-3 px-2 py-0.5"
                     style={{
@@ -400,21 +389,7 @@ export default function ProductsPage() {
           </div>
         </Reveal>
 
-        <Suspense
-          fallback={
-            <p
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: "0.65rem",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--color-subtle)",
-              }}
-            >
-              Loading catalog…
-            </p>
-          }
-        >
+        <Suspense fallback={<ProductGridSkeleton />}>
           <ProductsGrid />
         </Suspense>
       </div>

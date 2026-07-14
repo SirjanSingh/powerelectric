@@ -125,6 +125,7 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
 
   function handleChange(
     e: React.ChangeEvent<
@@ -136,9 +137,13 @@ export default function ContactPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Guard against a double-tap opening two WhatsApp tabs.
+    if (sending) return;
+    setSending(true);
     const url = quoteFormUrl(form);
     window.open(url, "_blank", "noopener,noreferrer");
     setSubmitted(true);
+    setSending(false);
   }
 
   const hasMapUrl = siteConfig.googleMapsEmbedUrl.length > 0;
@@ -247,7 +252,7 @@ export default function ContactPage() {
                       onClick={() => setSubmitted(false)}
                       className="btn btn-outline text-sm"
                     >
-                      Submit another request
+                      Start New Request
                     </button>
                   </div>
                 ) : (
@@ -371,9 +376,13 @@ export default function ContactPage() {
 
                     <button
                       type="submit"
+                      disabled={sending}
+                      aria-busy={sending}
                       className="btn wa-btn justify-center mt-1"
+                      style={sending ? { opacity: 0.6, cursor: "not-allowed" } : undefined}
                     >
-                      <MessageCircle size={15} /> Send via WhatsApp
+                      <MessageCircle size={15} />{" "}
+                      {sending ? "Opening WhatsApp…" : "Send via WhatsApp"}
                     </button>
 
                     <p
@@ -408,10 +417,7 @@ export default function ContactPage() {
                     title="PowerElectric location map"
                     width="100%"
                     height="100%"
-                    style={{
-                      border: 0,
-                      filter: "invert(0.9) hue-rotate(180deg)",
-                    }}
+                    style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -434,7 +440,7 @@ export default function ContactPage() {
                         color: "var(--color-subtle)",
                       }}
                     >
-                      Update googleMapsEmbedUrl in src/config/site.ts
+                      {siteConfig.address.line1}, {siteConfig.address.city}
                     </p>
                   </div>
                 )}
