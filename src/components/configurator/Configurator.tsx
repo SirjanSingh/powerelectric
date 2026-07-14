@@ -83,6 +83,7 @@ export default function Configurator() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start">
       {/* ════ LEFT: live 3D canvas ════ */}
+      <div className="flex flex-col gap-2.5">
       <div
         className="relative w-full"
         style={{
@@ -133,20 +134,22 @@ export default function Configurator() {
           )}
         />
 
-        <div
-          className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 z-10"
+      </div>
+
+        {/* Caption sits BELOW the frame, not over the model — an overlay
+            badge here landed squarely on the scooter's body and obscured
+            the very paint colour the user is picking. */}
+        <p
           style={{
             fontFamily: "var(--font-mono, monospace)",
             fontSize: "0.6rem",
             letterSpacing: "0.1em",
             textTransform: "uppercase",
             color: "var(--color-subtle)",
-            background: "color-mix(in srgb, var(--color-surface) 88%, transparent)",
-            border: "1px solid var(--color-border)",
           }}
         >
           {sceneReady ? "Drag to rotate · representative model" : "Representative model"}
-        </div>
+        </p>
       </div>
 
       {/* ════ RIGHT: controls panel ════ */}

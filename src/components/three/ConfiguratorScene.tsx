@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
 import {
   AdaptiveDpr,
   Center,
@@ -13,9 +13,49 @@ import {
 import * as THREE from "three";
 import { Scooter } from "./Scooter";
 
-/** Mounts only once the GLB-loading <Scooter> inside the same Suspense
- * boundary has resolved — fires exactly when the scooter is about to draw,
- * not merely when the WebGL context exists (mirrors HeroScene). */
+// The canvas box is a fixed 4:3 (set in CSS on the parent), so the frustum
+// is the same shape at every viewport width — one fit calculation holds for
+// 375w, 1280w and 1440w alike.
+const CAMERA_Z = 24;
+const CAMERA_FOV = 42;
+const CANVAS_ASPECT = 4 / 3;
+/** Fraction of the frustum the model is allowed to occupy — the rest is
+ * deliberate breathing room so nothing touches the corner-marker frame. */
+const FILL = 0.72;
+
+/** Static three-quarter presentation angle. The hero spins its scooter
+ * idly, but a configurator is an inspection surface: a stable, flattering
+ * 3/4 view that never rotates itself round to a head-on silhouette is worth
+ * more than idle motion here. The user can still drag to rotate. */
+const YAW = 2.3;
+const PITCH = 0.05;
+
+interface Dims {
+  width: number;
+  height: number;
+  depth: number;
+}
+
+/** Scales the (already-centered) model so its worst-case silhouette — the
+ * diagonal of its footprint, i.e. the widest angle the user can drag it to
+ * — still fits inside the frustum with margin. Measured from the real GLB
+ * bounds via <Center onCentered>, not a hand-tuned magic number, so the
+ * framing can't silently break if the asset is ever re-exported. */
+function useFitScale(dims: Dims | null) {
+  return useMemo(() => {
+    if (!dims) return null;
+    const halfH = CAMERA_Z * Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV) / 2);
+    const halfW = halfH * CANVAS_ASPECT;
+
+    // Worst-case horizontal half-extent across a full 360° of yaw.
+    const halfHoriz = Math.sqrt(dims.width ** 2 + dims.depth ** 2) / 2;
+    const halfVert = dims.height / 2;
+
+    const scale = Math.min((halfW * FILL) / halfHoriz, (halfH * FILL) / halfVert);
+    return { scale, modelHalfHeight: halfVert * scale };
+  }, [dims]);
+}
+
 function ReadySignal({ onReady }: { onReady?: () => void }) {
   useEffect(() => {
     onReady?.();
@@ -24,51 +64,63 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
   return null;
 }
 
-/** Slow idle auto-rotate that pauses while the user is actively dragging —
- * same feel as the hero rig, ported down to a single fixed camera position
- * since the configurator canvas is a small, self-contained box rather than
- * a full-bleed hero backdrop. */
 function ScooterRig({ bodyColor, onReady }: { bodyColor: string; onReady?: () => void }) {
-  const idleGroup = useRef<THREE.Group>(null!);
-  const dragging = useRef(false);
+  const [dims, setDims] = useState<Dims | null>(null);
+  const fit = useFitScale(dims);
 
-  useFrame((_, delta) => {
-    if (!dragging.current && idleGroup.current) {
-      idleGroup.current.rotation.y += delta * 0.18;
-    }
-  });
+  // Latch the measurement to the FIRST <Center> callback. Applying the
+  // resulting scale to this group makes Center re-run its layout effect and
+  // report again, which would set state, rescale, re-measure… — a genuine
+  // infinite loop (React bailed out with "Maximum update depth exceeded").
+  // The GLB's geometry is immutable, so one measurement at scale 1 is the
+  // true intrinsic size and every later report is just an echo of our own
+  // scaling. Ignore them.
+  const measured = useRef(false);
+  const handleCentered = ({ width, height, depth }: Dims) => {
+    if (measured.current) return;
+    measured.current = true;
+    setDims({ width, height, depth });
+  };
 
   return (
-    <group position={[0, -2, 0]} scale={5.4}>
-      <PresentationControls
-        global
-        snap
-        speed={1.2}
-        cursor
-        rotation={[0.08, 0.35, 0]}
-        polar={[-0.15, 0.3]}
-        azimuth={[-Math.PI, Math.PI]}
-      >
-        <group
-          ref={idleGroup}
-          onPointerDown={() => (dragging.current = true)}
-          onPointerUp={() => (dragging.current = false)}
-          onPointerLeave={() => (dragging.current = false)}
+    <>
+      {/* Held invisible for the single frame between mount and measurement so
+          the model never flashes at the wrong size before the fit lands.
+          onCentered runs in a layout effect, so this resolves before paint. */}
+      <group scale={fit?.scale ?? 1} visible={!!fit}>
+        <PresentationControls
+          global
+          snap
+          speed={1.2}
+          cursor
+          rotation={[PITCH, YAW, 0]}
+          polar={[-0.15, 0.3]}
+          azimuth={[-Math.PI, Math.PI]}
         >
           <Suspense fallback={null}>
-            <group rotation={[0, 0.5, 0]}>
-              <Center>
-                <Scooter bodyColor={bodyColor} />
-              </Center>
-            </group>
+            <Center onCentered={handleCentered}>
+              <Scooter bodyColor={bodyColor} />
+            </Center>
             <ReadySignal onReady={onReady} />
           </Suspense>
-        </group>
-      </PresentationControls>
-      <Suspense fallback={null}>
-        <ContactShadows position={[0, -6.5, 0]} opacity={0.35} scale={40} blur={2.4} far={20} />
-      </Suspense>
-    </group>
+        </PresentationControls>
+      </group>
+
+      {/* Outside the scaled group — its own world-space plane, parked just
+          under the model's measured footprint rather than at a fixed depth
+          that only happened to look right at one hand-picked scale. */}
+      {fit && (
+        <Suspense fallback={null}>
+          <ContactShadows
+            position={[0, -fit.modelHalfHeight - 0.25, 0]}
+            opacity={0.35}
+            scale={fit.modelHalfHeight * 6}
+            blur={2.4}
+            far={20}
+          />
+        </Suspense>
+      )}
+    </>
   );
 }
 
@@ -90,9 +142,8 @@ interface ConfiguratorSceneProps {
   /** Live-selected paint color (hex), passed straight through to the
    * Scooter's cloned Body material. */
   bodyColor: string;
-  /** Fired once the canvas has created a WebGL context and is about to
-   * draw its first frame — used by the parent to fade the static fallback
-   * image out, mirroring the Hero pattern. */
+  /** Fired once the GLB has resolved and the scene is about to draw — used
+   * by the parent to fade the static fallback image out (Hero pattern). */
   onReady?: () => void;
 }
 
@@ -107,7 +158,7 @@ export default function ConfiguratorScene({ bodyColor, onReady }: ConfiguratorSc
   return (
     <Canvas
       dpr={[1, 2]}
-      camera={{ position: [0, 0, 24], fov: 42, near: 0.1, far: 1000 }}
+      camera={{ position: [0, 0, CAMERA_Z], fov: CAMERA_FOV, near: 0.1, far: 1000 }}
       gl={{ antialias: true, alpha: true }}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
     >
