@@ -117,8 +117,9 @@ export default function AdminStatsPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/stats?key=${encodeURIComponent(k)}`, {
+      const res = await fetch("/api/stats", {
         cache: "no-store",
+        headers: { "x-admin-key": k },
       });
       if (res.status === 401) throw new Error("Wrong key.");
       if (res.status === 503)
@@ -183,7 +184,7 @@ export default function AdminStatsPage() {
         {error && (
           <p
             className="mb-8"
-            style={{ fontSize: "0.85rem", color: "var(--color-red, #DC2626)" }}
+            style={{ fontSize: "0.85rem", color: "var(--color-danger)" }}
           >
             {error}
           </p>

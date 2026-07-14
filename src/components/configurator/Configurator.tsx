@@ -268,7 +268,7 @@ export default function Configurator() {
                     fontWeight: 600,
                     border: `1.5px solid ${selected ? "var(--color-accent)" : "var(--color-border)"}`,
                     background: selected ? "var(--color-accent)" : "var(--color-surface)",
-                    color: selected ? "#fff" : "var(--color-text)",
+                    color: selected ? "var(--color-on-accent)" : "var(--color-text)",
                     borderRadius: 6,
                     cursor: "pointer",
                     transition: "all 0.15s ease",

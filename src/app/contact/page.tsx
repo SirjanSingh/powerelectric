@@ -149,7 +149,9 @@ export default function ContactPage() {
     const url = quoteFormUrl(form);
     window.open(url, "_blank", "noopener,noreferrer");
     setSubmitted(true);
-    setSending(false);
+    // Hold the guard briefly so a fast double-tap can't open a second tab
+    // before the confirmation view replaces the form.
+    window.setTimeout(() => setSending(false), 1500);
   }
 
   const hasMapUrl = siteConfig.googleMapsEmbedUrl.length > 0;

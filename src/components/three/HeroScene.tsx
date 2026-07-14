@@ -318,10 +318,10 @@ function supportsWebGL(): boolean {
 }
 
 interface HeroSceneProps {
-  /** Fired once the WebGL context has been created and the scene is about
-   * to draw its first frame — used by the parent to fade the static
-   * fallback image out. Not a React effect callback, just an imperative
-   * hook exposed by <Canvas onCreated>. */
+  /** Fired once the scooter GLB has resolved and rendered (via the
+   * <ReadySignal> mounted inside the model's Suspense boundary), so the
+   * parent only fades the static fallback out when there's a real frame to
+   * reveal — never during the gap between context creation and GLB load. */
   onReady?: () => void;
 }
 

@@ -1,5 +1,14 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { eventStore, aggregate } from "@/lib/analytics-store";
+
+/** Constant-time string compare that also tolerates length mismatch. */
+function safeEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
+}
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,12 +28,11 @@ export async function GET(req: Request) {
     );
   }
 
-  const key =
-    new URL(req.url).searchParams.get("key") ??
-    req.headers.get("x-admin-key") ??
-    "";
+  // Header only — never accept the key in the query string, where it would
+  // leak into access logs, Referer headers, and browser history.
+  const key = req.headers.get("x-admin-key") ?? "";
 
-  if (key !== expected) {
+  if (!safeEqual(key, expected)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

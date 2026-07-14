@@ -5,7 +5,7 @@ Command: npx gltfjsx@6.5.3 public\models\scooter.glb -o src\components\three\Sco
 
 import * as THREE from 'three'
 import type { JSX } from 'react'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
@@ -41,6 +41,16 @@ export function Scooter({ bodyColor, ...props }: ScooterProps) {
     cloned.color = new THREE.Color(bodyColor)
     return cloned
   }, [materials.Body, bodyColor])
+
+  // Dispose the cloned material when the colour changes or the component
+  // unmounts. Without this, cycling paint colours in the configurator leaks a
+  // MeshStandardMaterial (and its GPU shader program) per pick. Never dispose
+  // the shared cache material itself.
+  useEffect(() => {
+    return () => {
+      if (bodyMaterial !== materials.Body) bodyMaterial.dispose()
+    }
+  }, [bodyMaterial, materials.Body])
 
   return (
     <group {...props} dispose={null}>
