@@ -45,3 +45,24 @@ export function quoteFormUrl(data: QuoteFormData): string {
     `Message: ${data.message || "—"}`;
   return buildWhatsAppUrl(text);
 }
+
+/** Configured scooter build from the /configure 3D configurator */
+export interface ConfiguredQuote {
+  model: string;
+  color: string;
+  battery: "LFP" | "NMC";
+  qty: number;
+  city?: string;
+}
+
+export function configuredQuoteUrl(config: ConfiguredQuote): string {
+  const text =
+    `*Scooter Quote Request — PowerElectric*\n\n` +
+    `Model: ${config.model}\n` +
+    `Color: ${config.color}\n` +
+    `Battery: ${config.battery}\n` +
+    `Quantity: ${config.qty} units\n` +
+    (config.city ? `City: ${config.city}\n` : "") +
+    `\nPlease share pricing, availability and GST invoice details for this build.`;
+  return buildWhatsAppUrl(text);
+}

@@ -219,6 +219,25 @@ export default function CategoryCards() {
             )
           )}
         </div>
+
+        <Reveal delay={0.24}>
+          <p
+            className="mt-6"
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.75rem",
+              color: "var(--color-muted-2)",
+            }}
+          >
+            Know what you want?{" "}
+            <Link
+              href="/configure"
+              style={{ color: "var(--color-accent)", textDecoration: "underline", textUnderlineOffset: 3 }}
+            >
+              Configure a scooter in 3D &amp; get a quote →
+            </Link>
+          </p>
+        </Reveal>
       </div>
     </section>
   );

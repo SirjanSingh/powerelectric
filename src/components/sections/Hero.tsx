@@ -127,8 +127,8 @@ export default function Hero() {
                 <MessageCircle size={16} aria-hidden="true" />
                 WhatsApp for Quote
               </a>
-              <Link href="/products" className="hero-btn-ghost">
-                Browse Products
+              <Link href="/configure" className="hero-btn-ghost">
+                Configure &amp; Get Quote
                 <ChevronRight size={14} aria-hidden="true" />
               </Link>
             </div>
