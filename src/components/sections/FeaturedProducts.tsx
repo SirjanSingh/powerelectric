@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle, ArrowRight } from "lucide-react";
@@ -7,8 +8,68 @@ import { products } from "@/data/products";
 import { productEnquiryUrl } from "@/lib/whatsapp";
 import { categoryLabels } from "@/data/products";
 import Reveal from "@/components/shared/Reveal";
+import TiltedCard from "@/components/reactbits/TiltedCard";
 
 const featured = products.slice(0, 6);
+
+const categoryEmoji: Record<string, string> = {
+  scooters: "🛵",
+  batteries: "🔋",
+  parts: "🔌",
+};
+
+/**
+ * Product thumbnail with a real fallback state. Previously `onError` set
+ * `display:none` on the broken <Image>, leaving a near-blank hole (the
+ * "fallback" emoji sat behind it at 40% opacity, effectively invisible).
+ * Now a load failure flips visible state to a solid placeholder tile.
+ */
+function ProductImage({
+  src,
+  alt,
+  fallbackEmoji,
+}: {
+  src: string;
+  alt: string;
+  fallbackEmoji: string;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center gap-1"
+        style={{ background: "var(--color-surface-alt-2)" }}
+      >
+        <span className="text-3xl" aria-hidden="true">
+          {fallbackEmoji}
+        </span>
+        <span
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--color-subtle)",
+          }}
+        >
+          Image unavailable
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-contain"
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 export default function FeaturedProducts() {
   return (
@@ -27,24 +88,19 @@ export default function FeaturedProducts() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-border)]">
           {featured.map((product, i) => (
-            <Reveal key={product.id} delay={i * 0.06}>
+            <Reveal key={product.id} delay={i * 0.06} className="h-full">
+              <TiltedCard className="h-full" style={{ display: "block" }}>
               <article className="flex flex-col h-full" style={{ background: "var(--color-surface)" }}>
                 {/* image */}
                 <div
-                  className="relative h-40 flex items-center justify-center overflow-hidden"
+                  className="relative h-44 flex items-center justify-center overflow-hidden p-4"
                   style={{ background: "var(--color-surface-alt-2)", borderBottom: "1px solid var(--color-border)" }}
                 >
-                  <Image
+                  <ProductImage
                     src={product.image}
                     alt={product.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                    fallbackEmoji={categoryEmoji[product.category] ?? "📦"}
                   />
-                  <span className="text-3xl z-0 opacity-40" aria-hidden="true">
-                    {product.category === "scooters" ? "🛵" : product.category === "batteries" ? "🔋" : "🔌"}
-                  </span>
                   <span
                     className="absolute top-3 left-3 px-2 py-0.5"
                     style={{
@@ -124,6 +180,7 @@ export default function FeaturedProducts() {
                   </a>
                 </div>
               </article>
+              </TiltedCard>
             </Reveal>
           ))}
         </div>

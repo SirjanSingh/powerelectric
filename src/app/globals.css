@@ -627,6 +627,83 @@ h6 {
   color: #64748B;
 }
 
+/* ── Gradient shine heading accent (light-theme) ── */
+.gradient-shine-text {
+  background: linear-gradient(
+    100deg,
+    var(--color-accent) 20%,
+    var(--color-accent-bright) 40%,
+    #7DD3FC 50%,
+    var(--color-accent-bright) 60%,
+    var(--color-accent) 80%
+  );
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shine 5s linear infinite;
+}
+@keyframes gradient-shine {
+  to { background-position: -220% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-shine-text {
+    animation: none;
+    background-position: 0 center;
+  }
+}
+
+/* ── Trust strip hover (CSS, replaces JS inline-style handlers) ── */
+.trust-item {
+  transition: background 0.2s;
+}
+.trust-item:hover {
+  background: color-mix(in srgb, var(--color-surface) 4%, transparent);
+}
+
+/* ── Industry chip hover (CSS, replaces JS inline-style handlers) ── */
+.industry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background var(--transition), border-color var(--transition),
+    box-shadow var(--transition), transform var(--transition);
+}
+.industry-chip:hover {
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ── Footer link hover (CSS, replaces JS inline-style handlers) ── */
+.footer-link {
+  color: var(--color-muted);
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: var(--color-accent);
+}
+
+/* ══════════════════════════════════════════════════════════
+   REACT-BITS-INSPIRED PRIMITIVES — shared keyframes
+   ══════════════════════════════════════════════════════════ */
+@keyframes reactbits-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.reactbits-marquee-track {
+  animation-name: reactbits-marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 /* ── Bottom border rule ── */
 .hero-bottom-rule {
   position: absolute;

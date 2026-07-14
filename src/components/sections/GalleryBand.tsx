@@ -3,6 +3,15 @@
 import type React from "react";
 import Image from "next/image";
 import Reveal from "@/components/shared/Reveal";
+import Marquee from "@/components/reactbits/Marquee";
+
+const galleryImages = [
+  { src: "/assets/scootyimg.webp", alt: "Electric scooter — fleet unit" },
+  { src: "/assets/battery-pack.png", alt: "EV battery pack" },
+  { src: "/assets/parts-flatlay.png", alt: "Chargers and parts flatlay" },
+  { src: "/assets/scooter-lineup.png", alt: "Electric scooter lineup for bulk fleet supply" },
+  { src: "/assets/hero-scooter.png", alt: "Hero scooter model" },
+];
 
 export default function GalleryBand() {
   return (
@@ -29,7 +38,7 @@ export default function GalleryBand() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <div className="relative mx-auto max-w-4xl">
+          <div className="relative mx-auto max-w-5xl">
             {/* corner markers */}
             {[
               { style: { top: -8, left: -8, borderTop: "2px solid var(--color-accent)", borderLeft: "2px solid var(--color-accent)" } },
@@ -45,25 +54,33 @@ export default function GalleryBand() {
               />
             ))}
 
-            <div className="overflow-hidden" style={{ border: "1px solid var(--color-border)", boxShadow: "var(--shadow-md)" }}>
+            <div style={{ border: "1px solid var(--color-border)", boxShadow: "var(--shadow-md)" }}>
               <div
-                className="relative h-72 md:h-96 flex items-center justify-center"
+                className="relative py-6 px-6"
                 style={{ background: "var(--color-surface-alt-2)" }}
               >
-                <Image
-                  src="/assets/scooter-lineup.png"
-                  alt="Electric scooter lineup for bulk fleet supply"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 896px"
-                  onError={(e) => { e.currentTarget.style.display = "none"; }}
-                />
-                <div className="z-0 text-center pointer-events-none">
-                  <p className="text-5xl mb-3 opacity-30">🛵🛵🛵</p>
-                  <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.1em", color: "var(--color-subtle)" }}>
-                    scooter-lineup.png
-                  </p>
-                </div>
+                <Marquee duration={32}>
+                  {galleryImages.map((img, i) => (
+                    <div
+                      key={`${img.src}-${i}`}
+                      className="relative shrink-0 h-56 md:h-72 mx-3 overflow-hidden"
+                      style={{
+                        width: 220,
+                        border: "1px solid var(--color-border)",
+                        background: "var(--color-surface)",
+                        borderRadius: 2,
+                      }}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="220px"
+                      />
+                    </div>
+                  ))}
+                </Marquee>
               </div>
 
               <div

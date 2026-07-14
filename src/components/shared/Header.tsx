@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/components/reactbits/useReducedMotionSafe";
 import { Menu, X, Zap } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
@@ -20,14 +22,22 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotionSafe();
+
+  // Derived-state pattern (React docs: "Adjusting state when a prop changes")
+  // instead of an effect — closes the mobile menu on route change without
+  // calling setState synchronously inside a useEffect body.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setMenuOpen(false);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => setMenuOpen(false), [pathname]);
 
   useEffect(() => {
     function handler(e: MouseEvent) {
@@ -80,20 +90,35 @@ export default function Header() {
           className="hidden md:flex items-center gap-1 ml-auto"
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="px-4 py-2 text-sm font-medium transition-colors"
-              style={{
-                fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                color: pathname === link.href ? "var(--color-accent)" : "var(--color-muted)",
-                textDecoration: "none",
-              }}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative px-4 py-2 text-sm font-medium transition-colors"
+                style={{
+                  fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                  color: active ? "var(--color-accent)" : "var(--color-muted)",
+                  textDecoration: "none",
+                }}
+              >
+                {link.label}
+                {active && (
+                  <motion.span
+                    layoutId="header-active-underline"
+                    className="absolute left-4 right-4 bottom-0 pointer-events-none"
+                    style={{ height: 2, background: "var(--color-accent)", borderRadius: 1 }}
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 380, damping: 32 }
+                    }
+                  />
+                )}
+              </Link>
+            );
+          })}
           <span className="h-4 w-px bg-[var(--color-border)] mx-2" aria-hidden="true" />
           <a
             href={genericEnquiryUrl()}

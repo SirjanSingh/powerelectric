@@ -1,6 +1,9 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Reveal from "@/components/shared/Reveal";
+import { useReducedMotionSafe } from "@/components/reactbits/useReducedMotionSafe";
 
 const steps = [
   {
@@ -21,6 +24,10 @@ const steps = [
 ];
 
 export default function HowItWorks() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useInView(gridRef, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotionSafe();
+
   return (
     <section
       className="section-pad"
@@ -41,21 +48,30 @@ export default function HowItWorks() {
         </Reveal>
 
         {/* Step cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 relative">
-          {/* Connecting line between cards (desktop) */}
-          <div
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-0 relative">
+          {/* Connecting line between step badges (desktop) — self-draws on scroll into view */}
+          <svg
             aria-hidden="true"
             className="hidden md:block absolute"
-            style={{
-              top: 36,
-              left: "calc(33.333% - 1px)",
-              right: "calc(33.333% - 1px)",
-              height: 1,
-              background:
-                "linear-gradient(to right, color-mix(in srgb, var(--color-accent) 40%, transparent) 0%, color-mix(in srgb, var(--color-accent-bright) 40%, transparent) 50%, color-mix(in srgb, var(--color-accent) 40%, transparent) 100%)",
-              zIndex: 1,
-            }}
-          />
+            style={{ top: 12, left: 0, width: "100%", height: 48, zIndex: 1, pointerEvents: "none" }}
+            viewBox="0 0 100 48"
+            preserveAspectRatio="none"
+          >
+            <motion.path
+              d="M 16.67 24 L 83.33 24"
+              stroke="var(--color-accent-bright)"
+              strokeWidth={1.5}
+              vectorEffect="non-scaling-stroke"
+              fill="none"
+              initial={{ pathLength: prefersReducedMotion ? 1 : 0, opacity: prefersReducedMotion ? 1 : 0 }}
+              animate={
+                prefersReducedMotion || gridInView
+                  ? { pathLength: 1, opacity: 1 }
+                  : { pathLength: 0, opacity: 0 }
+              }
+              transition={{ duration: prefersReducedMotion ? 0 : 1, ease: "easeInOut", delay: prefersReducedMotion ? 0 : 0.2 }}
+            />
+          </svg>
 
           {steps.map(({ num, title, desc }, i) => (
             <Reveal key={num} delay={i * 0.12}>

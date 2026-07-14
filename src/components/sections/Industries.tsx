@@ -1,6 +1,9 @@
 "use client";
 
+import { motion, useInView, type Variants } from "framer-motion";
+import { useRef } from "react";
 import Reveal from "@/components/shared/Reveal";
+import Magnet from "@/components/reactbits/Magnet";
 
 const industries = [
   { name: "Delivery Fleets",           icon: "🚚" },
@@ -13,7 +16,25 @@ const industries = [
   { name: "Healthcare / Hospitals",    icon: "🏥" },
 ];
 
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+
+const chipVariants: Variants = {
+  hidden: { opacity: 0, y: 12, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 export default function Industries() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useInView(gridRef, { once: true, margin: "-60px" });
+
   return (
     <section
       className="section-pad"
@@ -34,68 +55,40 @@ export default function Industries() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            {industries.map(({ name, icon }, i) => (
-              <div
-                key={name}
-                className="group cursor-default"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "10px 18px",
-                  background: "var(--color-surface)",
-                  border: "1px solid var(--color-border)",
-                  borderRadius: 999,
-                  boxShadow: "var(--shadow-sm)",
-                  transition:
-                    "background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition)",
-                  animationDelay: `${i * 0.04}s`,
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "color-mix(in srgb, var(--color-accent) 6%, transparent)";
-                  el.style.borderColor = "color-mix(in srgb, var(--color-accent) 30%, transparent)";
-                  el.style.boxShadow = "var(--shadow-md)";
-                  el.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "var(--color-surface)";
-                  el.style.borderColor = "var(--color-border)";
-                  el.style.boxShadow = "var(--shadow-sm)";
-                  el.style.transform = "";
-                }}
-              >
-                <span
-                  role="img"
-                  aria-hidden="true"
-                  style={{ fontSize: "0.9rem" }}
-                >
-                  {icon}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-body, 'Barlow'), sans-serif",
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    color: "var(--color-text)",
-                    letterSpacing: "0.01em",
-                  }}
-                >
-                  {name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+        <motion.div
+          ref={gridRef}
+          initial="hidden"
+          animate={gridInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+          }}
+        >
+          {industries.map(({ name, icon }) => (
+            <motion.div key={name} variants={chipVariants}>
+              <Magnet strength={8}>
+                <div className="industry-chip cursor-default">
+                  <span role="img" aria-hidden="true" style={{ fontSize: "0.9rem" }}>
+                    {icon}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-body, 'Barlow'), sans-serif",
+                      fontSize: "0.875rem",
+                      fontWeight: 500,
+                      color: "var(--color-text)",
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    {name}
+                  </span>
+                </div>
+              </Magnet>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

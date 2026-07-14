@@ -1,7 +1,9 @@
 "use client";
 
 import { CheckCircle2, LayoutList, BatteryCharging, Headphones } from "lucide-react";
+import { motion } from "framer-motion";
 import Reveal from "@/components/shared/Reveal";
+import { useReducedMotionSafe } from "@/components/reactbits/useReducedMotionSafe";
 
 const reasons = [
   {
@@ -31,6 +33,8 @@ const reasons = [
 ];
 
 export default function WhyUs() {
+  const prefersReducedMotion = useReducedMotionSafe();
+
   return (
     <section
       className="section-pad"
@@ -42,7 +46,7 @@ export default function WhyUs() {
           <div className="mb-14">
             <p className="section-label mb-2">Why PowerElectric</p>
             <h2 className="section-title" id="whyus-heading">
-              Built for Serious Buyers.
+              Built for <span className="gradient-shine-text">Serious Buyers.</span>
             </h2>
             <p className="section-sub">
               We don&apos;t sell to hobbyists. We supply fleets, dealers and
@@ -55,28 +59,30 @@ export default function WhyUs() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {reasons.map(({ num, icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 0.08}>
-              <div
+              <motion.div
                 className="p-8 group relative overflow-hidden cursor-default"
                 style={{
                   background: "var(--color-surface)",
-                  border: "1px solid var(--color-border)",
                   borderRadius: "var(--radius-card)",
-                  boxShadow: "var(--shadow-sm)",
-                  transition:
-                    "box-shadow var(--transition), transform var(--transition), border-color var(--transition)",
+                  borderWidth: 1,
+                  borderStyle: "solid",
                 }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.boxShadow = "var(--shadow-lg)";
-                  el.style.transform = "translateY(-3px)";
-                  el.style.borderColor = "color-mix(in srgb, var(--color-accent) 25%, transparent)";
+                initial="rest"
+                whileHover="hover"
+                animate="rest"
+                variants={{
+                  rest: {
+                    y: 0,
+                    boxShadow: "var(--shadow-sm)",
+                    borderColor: "var(--color-border)",
+                  },
+                  hover: {
+                    y: prefersReducedMotion ? 0 : -3,
+                    boxShadow: "var(--shadow-lg)",
+                    borderColor: "color-mix(in srgb, var(--color-accent) 25%, transparent)",
+                  },
                 }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.boxShadow = "var(--shadow-sm)";
-                  el.style.transform = "";
-                  el.style.borderColor = "var(--color-border)";
-                }}
+                transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
               >
                 {/* Gradient wash on hover */}
                 <div
@@ -155,7 +161,7 @@ export default function WhyUs() {
                 >
                   {desc}
                 </p>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>

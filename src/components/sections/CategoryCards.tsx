@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Zap, BatteryCharging, Wrench, ArrowRight } from "lucide-react";
 import Reveal from "@/components/shared/Reveal";
+import SpotlightCard from "@/components/reactbits/SpotlightCard";
 
 const categories = [
   {
@@ -78,16 +79,21 @@ export default function CategoryCards() {
               { icon: Icon, num, title, desc, href, tag, accent, accentBg, gradientHover },
               i
             ) => (
-              <Reveal key={title} delay={i * 0.08}>
+              <Reveal key={title} delay={i * 0.08} className="h-full">
+                <SpotlightCard
+                  className="h-full"
+                  style={{
+                    borderRight:
+                      i < 2
+                        ? "1px solid var(--color-border)"
+                        : undefined,
+                  }}
+                >
                 <Link
                   href={href}
                   className="group flex flex-col p-8 h-full no-underline relative overflow-hidden cursor-pointer"
                   style={{
                     background: "var(--color-surface)",
-                    borderRight:
-                      i < 2
-                        ? "1px solid var(--color-border)"
-                        : undefined,
                   }}
                 >
                   {/* Hover gradient wash */}
@@ -215,6 +221,7 @@ export default function CategoryCards() {
                     />
                   </div>
                 </Link>
+                </SpotlightCard>
               </Reveal>
             )
           )}

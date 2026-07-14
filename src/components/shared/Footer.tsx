@@ -42,9 +42,8 @@ export default function Footer() {
             ].map((l) => (
               <li key={l.href}>
                 <Link href={l.href}
-                  style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
+                  className="footer-link"
+                  style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", textDecoration: "none" }}
                 >
                   {l.label}
                 </Link>
@@ -59,18 +58,14 @@ export default function Footer() {
             Contact Us
           </h3>
           <div className="flex flex-col gap-3">
-            <a href={`tel:${siteConfig.phoneRaw}`} className="flex items-center gap-2"
-              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
+            <a href={`tel:${siteConfig.phoneRaw}`} className="footer-link flex items-center gap-2"
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", textDecoration: "none" }}
             >
               <Phone size={13} style={{ color: "var(--color-accent)" }} />
               {siteConfig.phone}
             </a>
-            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2"
-              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-accent)")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-muted)")}
+            <a href={`mailto:${siteConfig.email}`} className="footer-link flex items-center gap-2"
+              style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", textDecoration: "none" }}
             >
               <Mail size={13} style={{ color: "var(--color-accent)" }} />
               {siteConfig.email}
