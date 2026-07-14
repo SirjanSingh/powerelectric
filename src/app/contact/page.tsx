@@ -17,6 +17,7 @@ import {
   type QuoteFormData,
 } from "@/lib/whatsapp";
 import Reveal from "@/components/shared/Reveal";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const faqs = [
   {
@@ -140,6 +141,11 @@ export default function ContactPage() {
     // Guard against a double-tap opening two WhatsApp tabs.
     if (sending) return;
     setSending(true);
+    trackWhatsAppClick("contact_form", {
+      product: form.category,
+      variant: form.quantity ? `qty ${form.quantity}` : undefined,
+      city: form.city.trim() || undefined,
+    });
     const url = quoteFormUrl(form);
     window.open(url, "_blank", "noopener,noreferrer");
     setSubmitted(true);

@@ -9,6 +9,7 @@ import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";
 import { SceneErrorBoundary } from "@/components/three/SceneErrorBoundary";
 import { cn } from "@/lib/utils";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 // Load the R3F hero scene (particles + interactive scooter) client-side
 // only — it touches WebGL/window and must never run during SSR.
@@ -120,6 +121,7 @@ export default function Hero() {
             <div className="hero-ctas hero-fade-in" style={{ animationDelay: "0.3s" }}>
               <a
                 href={genericEnquiryUrl()}
+                onClick={() => trackWhatsAppClick("hero")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hero-btn-primary"

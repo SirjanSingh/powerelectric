@@ -2,11 +2,13 @@
 
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { MessageCircle } from "lucide-react";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export default function FloatingWhatsApp() {
   return (
     <a
       href={genericEnquiryUrl()}
+      onClick={() => trackWhatsAppClick("floating")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp us"

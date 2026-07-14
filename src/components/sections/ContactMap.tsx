@@ -5,6 +5,7 @@ import { MessageCircle, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import Reveal from "@/components/shared/Reveal";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const contactRows = [
   { icon: Phone, label: "Phone / WhatsApp", value: siteConfig.phone, href: `tel:${siteConfig.phoneRaw}` },
@@ -40,7 +41,7 @@ export default function ContactMap() {
               </div>
 
               <div className="px-7 py-5 flex flex-col sm:flex-row gap-3" style={{ borderBottom: "1px solid var(--color-border)" }}>
-                <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn flex-1 justify-center">
+                <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn flex-1 justify-center" onClick={() => trackWhatsAppClick("contact_strip")}>
                   <MessageCircle size={15} /> WhatsApp
                 </a>
                 <a href={`tel:${siteConfig.phoneRaw}`} className="btn btn-outline flex-1 justify-center">

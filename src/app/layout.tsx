@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import FloatingWhatsApp from "@/components/shared/FloatingWhatsApp";
+import PageViewTracker from "@/components/shared/PageViewTracker";
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlowCondensed.variable} ${barlow.variable} ${ibmPlexMono.variable}`}>
       <body>
+        <PageViewTracker />
         <Header />
         <main>{children}</main>
         <Footer />

@@ -13,6 +13,7 @@ import { productEnquiryUrl } from "@/lib/whatsapp";
 import Reveal from "@/components/shared/Reveal";
 import ProductImage from "@/components/shared/ProductImage";
 import ProductGridSkeleton from "@/components/shared/ProductGridSkeleton";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const tabs: { key: Category | "all"; label: string }[] = [
   { key: "all", label: "All Products" },
@@ -327,6 +328,9 @@ function ProductsGrid() {
 
                   <a
                     href={productEnquiryUrl(product.name)}
+                    onClick={() =>
+                      trackWhatsAppClick("product_card", { product: product.name })
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn wa-btn text-sm justify-center"

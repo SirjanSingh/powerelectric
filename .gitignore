@@ -47,3 +47,7 @@ next-env.d.ts
 
 .claude/
 CLAUDE.md
+
+# analytics event log (local file store)
+data/
+.env.local

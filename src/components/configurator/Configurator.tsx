@@ -8,6 +8,7 @@ import { products } from "@/data/products";
 import { configuredQuoteUrl } from "@/lib/whatsapp";
 import { SceneErrorBoundary } from "@/components/three/SceneErrorBoundary";
 import { cn } from "@/lib/utils";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 // The R3F canvas touches WebGL/window and must never run during SSR.
 const ConfiguratorScene = dynamic(
@@ -425,6 +426,11 @@ export default function Configurator() {
               return;
             }
             setSending(true);
+            trackWhatsAppClick("configurator", {
+              product: model.name,
+              variant: `${color.name} · ${battery} · qty ${qty}`,
+              city: city.trim() || undefined,
+            });
             window.setTimeout(() => setSending(false), 1500);
           }}
           className={cn("btn wa-btn justify-center text-base", sending && "pointer-events-none opacity-70")}

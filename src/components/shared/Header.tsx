@@ -9,6 +9,7 @@ import { Menu, X, Zap } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -122,6 +123,7 @@ export default function Header() {
           <span className="h-4 w-px bg-[var(--color-border)] mx-2" aria-hidden="true" />
           <a
             href={genericEnquiryUrl()}
+            onClick={() => trackWhatsAppClick("header")}
             target="_blank"
             rel="noopener noreferrer"
             className="btn wa-btn text-sm"
@@ -173,6 +175,7 @@ export default function Header() {
           ))}
           <a
             href={genericEnquiryUrl()}
+            onClick={() => trackWhatsAppClick("header")}
             target="_blank"
             rel="noopener noreferrer"
             className="btn wa-btn mt-3 justify-center"

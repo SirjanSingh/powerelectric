@@ -8,6 +8,7 @@ import { categoryLabels } from "@/data/products";
 import Reveal from "@/components/shared/Reveal";
 import ProductImage from "@/components/shared/ProductImage";
 import TiltedCard from "@/components/reactbits/TiltedCard";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 const featured = products.slice(0, 6);
 
@@ -113,6 +114,9 @@ export default function FeaturedProducts() {
 
                   <a
                     href={productEnquiryUrl(product.name)}
+                    onClick={() =>
+                      trackWhatsAppClick("featured_product", { product: product.name })
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn wa-btn mt-auto text-sm justify-center"

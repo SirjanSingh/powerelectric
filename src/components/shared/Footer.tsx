@@ -4,6 +4,7 @@ import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
 import { Phone, Mail, MessageCircle, Zap } from "lucide-react";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export default function Footer() {
   return (
@@ -22,7 +23,7 @@ export default function Footer() {
           <p className="mb-5 leading-relaxed" style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)" }}>
             {siteConfig.tagline}. GST billing, bulk pricing, and fleet coordination across India.
           </p>
-          <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn text-sm w-fit">
+          <a href={genericEnquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn wa-btn text-sm w-fit" onClick={() => trackWhatsAppClick("footer")}>
             <MessageCircle size={14} /> WhatsApp for Quote
           </a>
         </div>
