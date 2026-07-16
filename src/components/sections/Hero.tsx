@@ -3,12 +3,12 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { MessageCircle, ChevronRight } from "lucide-react";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";
 import { SceneErrorBoundary } from "@/components/three/SceneErrorBoundary";
-import { cn } from "@/lib/utils";
+import { canRender3D } from "@/components/three/capabilities";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
 // Load the R3F hero scene (particles + interactive scooter) client-side
@@ -16,6 +16,10 @@ import { trackWhatsAppClick } from "@/lib/analytics";
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
   ssr: false,
 });
+
+// useSyncExternalStore needs a subscribe fn; capability never changes at
+// runtime, so this is an inert no-op subscription.
+const emptySubscribe = () => () => {};
 
 const specs = [
   { label: "Min. Order", value: "5 UNITS" },
@@ -25,10 +29,23 @@ const specs = [
 ];
 
 export default function Hero() {
-  // Set imperatively by <Canvas onCreated> once the WebGL context exists —
-  // this is a callback prop, not a useEffect body, so calling setState here
-  // does not trigger cascading-render lint warnings.
+  // Flipped true once the scooter GLB has actually rendered a frame (via
+  // HeroScene's onReady), at which point the loader is removed to reveal the
+  // live canvas behind it.
   const [sceneReady, setSceneReady] = useState(false);
+
+  // Read 3D capability without a hydration mismatch or a setState-in-effect:
+  // the server and first hydration paint both report "loading" (→ neutral
+  // loader); the client then resolves to "yes" (loader stays until the scene
+  // is ready) or "no" (static-photo fallback for reduced-motion / no WebGL).
+  // Capable visitors therefore never see the photo — no photo→3D flash.
+  const renderMode = useSyncExternalStore(
+    emptySubscribe,
+    () => (canRender3D() ? "yes" : "no"),
+    () => "loading",
+  );
+  const showStaticFallback = renderMode === "no";
+  const showLoader = renderMode !== "no" && !sceneReady;
 
   return (
     <section
@@ -99,8 +116,9 @@ export default function Hero() {
             {/* Body */}
             <p className="hero-body hero-fade-in" style={{ animationDelay: "0.15s" }}>
               {siteConfig.businessName} supplies electric scooters, LFP/NMC
-              battery packs, chargers &amp; parts for high-volume buyers — with
-              GST invoicing, verified stock, and rapid pan-India dispatch.
+              battery packs, chargers &amp; parts for high-volume buyers —
+              from single-fleet lots to full-container bulk orders, with GST
+              invoicing, verified stock, and rapid pan-India dispatch.
             </p>
 
             {/* Spec rail */}
@@ -151,32 +169,30 @@ export default function Hero() {
               <span className="hero-corner hero-corner-bl" aria-hidden="true" />
               <span className="hero-corner hero-corner-br" aria-hidden="true" />
 
-              {/* Static fallback — visible until the R3F scene reports it
-                  has created a WebGL context, then crossfades out to
-                  reveal the canvas (which sits behind it in the stacking
-                  order) with the live scooter. Also the permanent fallback
-                  for reduced-motion / no-WebGL / scene-error cases, since
-                  in those cases sceneReady never flips true. */}
-              <Image
-                src="/assets/scootyimg.png"
-                alt="Premium electric scooter for bulk fleet orders"
-                width={520}
-                height={390}
-                priority
-                className={cn("hero-img", sceneReady && "hero-img--faded")}
-                style={{ height: "auto" }}
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
+              {/* Permanent static fallback — ONLY for reduced-motion / no-WebGL,
+                  where the 3D canvas never mounts. No longer shown during normal
+                  loading (that's the loader below), so there's no photo→3D flash. */}
+              {showStaticFallback && (
+                <Image
+                  src="/assets/scootyimg.png"
+                  alt="Electric scooter for bulk fleet orders"
+                  width={520}
+                  height={390}
+                  priority
+                  className="hero-img"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              )}
 
-              {/* Fallback for a missing/broken image asset — only relevant
-                  pre-3D; once the scene is live it must stay hidden or it
-                  would show through the now-transparent (faded) photo. */}
-              {!sceneReady && (
-                <div className="hero-img-fallback" aria-hidden="true">
-                  <span style={{ fontSize: "4rem" }}>⚡</span>
-                  <span className="hero-img-fallback-label">scootyimg.png</span>
+              {/* Neutral loader while the 3D scene loads — replaces the old
+                  static-photo flash. Removed once the scooter has drawn its
+                  first frame, revealing the live canvas behind it. */}
+              {showLoader && (
+                <div className="hero-loader" aria-hidden="true">
+                  <span className="hero-loader-spinner" />
+                  <span className="hero-loader-label">Loading 3D preview…</span>
                 </div>
               )}
 

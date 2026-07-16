@@ -538,6 +538,10 @@ h6 {
 .hero-image-inner {
   position: relative;
   width: 100%;
+  /* Reserve the frame's height whether it holds the static photo, the loader,
+     or nothing (3D ready → revealed from the full-bleed canvas behind), so the
+     layout never shifts as those states swap. 520×390 ≈ 4/3. */
+  aspect-ratio: 4 / 3;
   will-change: transform;
 }
 
@@ -596,6 +600,43 @@ h6 {
   font-size: 0.7rem;
   color: #94A3B8;
   letter-spacing: 0.06em;
+}
+
+/* ── Neutral loader shown while the 3D scene loads (replaces the old
+      static-photo flash). Only appears when 3D will actually render. ── */
+.hero-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.hero-loader-spinner {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
+  border-top-color: var(--color-accent);
+  animation: hero-loader-spin 0.8s linear infinite;
+}
+@keyframes hero-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hero-loader-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-subtle);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-loader-spinner {
+    animation: none;
+  }
 }
 
 /* ── Floating product tag ── */

@@ -12,6 +12,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Scooter } from "./Scooter";
+import { canRender3D } from "./capabilities";
 
 const PARTICLE_COUNT = 140;
 const SPREAD_X = 70;
@@ -226,7 +227,7 @@ function useScooterRigConfig() {
   useCompactCameraFov(isCompact);
   return isCompact
     ? { x: 0, y: -18, z: 34, scale: 3.3, isCompact }
-    : { x: 9.5, y: -4, z: 25, scale: 4.8, isCompact };
+    : { x: 8.5, y: 2, z: 25, scale: 3.8, isCompact };
 }
 
 /** Mounts only once every sibling inside the same Suspense boundary (i.e.
@@ -303,20 +304,6 @@ function ScooterRig({ onReady }: { onReady?: () => void }) {
   );
 }
 
-function supportsWebGL(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(
-      canvas.getContext("webgl2") ||
-      canvas.getContext("webgl") ||
-      canvas.getContext("experimental-webgl")
-    );
-  } catch {
-    return false;
-  }
-}
-
 interface HeroSceneProps {
   /** Fired once the scooter GLB has resolved and rendered (via the
    * <ReadySignal> mounted inside the model's Suspense boundary), so the
@@ -329,11 +316,7 @@ export default function HeroScene({ onReady }: HeroSceneProps) {
   // This component is only ever mounted client-side (parent uses
   // `dynamic(..., { ssr: false })`), so reading browser APIs directly in
   // the render body here is safe and never causes a hydration mismatch.
-  const reducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reducedMotion || !supportsWebGL()) return null;
+  if (!canRender3D()) return null;
 
   return (
     <Canvas
