@@ -357,9 +357,9 @@ function ProductsGrid() {
           background: "var(--color-surface-alt)",
         }}
       >
-        Prototype images are for representation only. Final catalog will use
-        authorized product media. Specifications are indicative. Contact us for
-        exact datasheet and availability before ordering.
+        Product images are representative. Specifications are indicative —
+        contact us on WhatsApp for the exact datasheet, current stock, warranty
+        and GST invoice details before ordering.
       </p>
     </>
   );

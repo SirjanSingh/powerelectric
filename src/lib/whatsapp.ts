@@ -12,14 +12,14 @@ export function buildWhatsAppUrl(message?: string): string {
 /** Default greeting for generic enquiry */
 export function genericEnquiryUrl(): string {
   return buildWhatsAppUrl(
-    "Hi PowerElectric, I'd like to get more information about your EV products and bulk pricing.",
+    "Hi Power Electric India, I'd like to get more information about your EV products and bulk pricing.",
   );
 }
 
 /** Product-specific enquiry for the product catalog */
 export function productEnquiryUrl(productName: string): string {
   return buildWhatsAppUrl(
-    `Hi PowerElectric, I'm interested in bulk pricing for *${productName}*.\n` +
+    `Hi Power Electric India, I'm interested in bulk pricing for *${productName}*.\n` +
       `Quantity: __\nCity: __\n\nPlease share quote, availability, warranty and GST invoice details.`,
   );
 }
@@ -36,7 +36,7 @@ export interface QuoteFormData {
 
 export function quoteFormUrl(data: QuoteFormData): string {
   const text =
-    `*Bulk Quote Request — PowerElectric*\n\n` +
+    `*Bulk Quote Request — Power Electric India*\n\n` +
     `Name: ${data.name}\n` +
     `Phone: ${data.phone}\n` +
     `City: ${data.city}\n` +
@@ -57,7 +57,7 @@ export interface ConfiguredQuote {
 
 export function configuredQuoteUrl(config: ConfiguredQuote): string {
   const text =
-    `*Scooter Quote Request — PowerElectric*\n\n` +
+    `*Scooter Quote Request — Power Electric India*\n\n` +
     `Model: ${config.model}\n` +
     `Color: ${config.color}\n` +
     `Battery: ${config.battery}\n` +

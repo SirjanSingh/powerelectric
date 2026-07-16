@@ -44,7 +44,7 @@ export default function WhyUs() {
       <div className="container">
         <Reveal>
           <div className="mb-14">
-            <p className="section-label mb-2">Why PowerElectric</p>
+            <p className="section-label mb-2">Why Power Electric India</p>
             <h2 className="section-title" id="whyus-heading">
               Built for <span className="gradient-shine-text">Serious Buyers.</span>
             </h2>

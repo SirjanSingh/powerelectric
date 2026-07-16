@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MessageCircle, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { formatAddress } from "@/lib/utils";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import Reveal from "@/components/shared/Reveal";
 import { trackWhatsAppClick } from "@/lib/analytics";
@@ -76,8 +77,7 @@ export default function ContactMap() {
               <div className="flex gap-4 px-7 py-4" style={{ borderBottom: "1px solid var(--color-border)" }}>
                 <MapPin size={14} className="shrink-0 mt-0.5" style={{ color: "var(--color-accent)" }} />
                 <p style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.875rem", color: "var(--color-muted)", lineHeight: 1.6 }}>
-                  {siteConfig.address.line1}, {siteConfig.address.line2},{" "}
-                  {siteConfig.address.city}, {siteConfig.address.state} — {siteConfig.address.pin}
+                  {formatAddress(siteConfig.address)}
                 </p>
               </div>
 
@@ -110,7 +110,7 @@ export default function ContactMap() {
               {hasMapUrl ? (
                 <iframe
                   src={siteConfig.googleMapsEmbedUrl}
-                  title="PowerElectric location map"
+                  title="Power Electric India location map"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

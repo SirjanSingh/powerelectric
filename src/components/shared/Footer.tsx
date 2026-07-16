@@ -2,8 +2,10 @@
 
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";
+import { formatAddress } from "@/lib/utils";
 import Link from "next/link";
-import { Phone, Mail, MessageCircle, Zap } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, MessageCircle } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
 export default function Footer() {
@@ -13,9 +15,13 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-2.5 mb-4">
-            <span className="flex items-center justify-center w-7 h-7 text-white" style={{ background: "var(--color-accent)", borderRadius: 2 }}>
-              <Zap size={14} strokeWidth={2.5} />
-            </span>
+            <Image
+              src="/assets/logo.jpg"
+              alt={`${siteConfig.businessName} logo`}
+              width={40}
+              height={40}
+              className="rounded-full shrink-0"
+            />
             <span style={{ fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif", fontWeight: 700, fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--color-text)" }}>
               {siteConfig.businessName}
             </span>
@@ -72,9 +78,7 @@ export default function Footer() {
               {siteConfig.email}
             </a>
             <p style={{ fontFamily: "var(--font-body, 'Barlow'), sans-serif", fontSize: "0.8rem", color: "var(--color-subtle)", lineHeight: 1.6 }}>
-              {siteConfig.address.line1},<br />
-              {siteConfig.address.line2},<br />
-              {siteConfig.address.city}, {siteConfig.address.state} — {siteConfig.address.pin}
+              {formatAddress(siteConfig.address)}
             </p>
             <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.65rem", letterSpacing: "0.06em", color: "var(--color-subtle)" }}>
               {siteConfig.hours}
@@ -89,7 +93,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {siteConfig.businessName}. All rights reserved.
           </span>
           <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.6rem", letterSpacing: "0.08em", color: "var(--color-subtle)" }}>
-            Prototype images are for representation only.
+            Product images are representative. Final specs on request.
           </span>
         </div>
       </div>

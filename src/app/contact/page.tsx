@@ -422,7 +422,7 @@ export default function ContactPage() {
                 {hasMapUrl ? (
                   <iframe
                     src={siteConfig.googleMapsEmbedUrl}
-                    title="PowerElectric location map"
+                    title="Power Electric India location map"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

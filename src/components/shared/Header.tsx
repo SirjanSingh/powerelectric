@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "@/components/reactbits/useReducedMotionSafe";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { genericEnquiryUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -64,14 +65,16 @@ export default function Header() {
         <Link
           href="/"
           className="flex items-center gap-2.5 shrink-0"
-          aria-label="PowerElectric Home"
+          aria-label={`${siteConfig.businessName} Home`}
         >
-          <span
-            className="flex items-center justify-center w-7 h-7 text-white"
-            style={{ background: "var(--color-accent)", borderRadius: 2 }}
-          >
-            <Zap size={14} strokeWidth={2.5} />
-          </span>
+          <Image
+            src="/assets/logo.jpg"
+            alt={`${siteConfig.businessName} logo`}
+            width={36}
+            height={36}
+            priority
+            className="rounded-full shrink-0"
+          />
           <span
             style={{
               fontFamily: "var(--font-display, 'Barlow Condensed'), sans-serif",

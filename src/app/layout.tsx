@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.metaDescription,
   metadataBase: new URL(siteConfig.siteUrl),
-  icons: { icon: "/favicon.ico" },
+  // Favicon is provided by the App Router file convention: src/app/icon.jpg
 };
 
 export default function RootLayout({
