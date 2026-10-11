@@ -1,3 +1,21 @@
+# Power Electric India website
+
+B2B lead-gen site for Power Electric India, a Delhi bulk supplier of electric scooters, EV
+batteries, chargers and parts. Every call to action opens WhatsApp with a pre-filled enquiry.
+
+**Start here:**
+- [`docs/design-brief/DESIGN-BRIEF.md`](docs/design-brief/DESIGN-BRIEF.md): the current design,
+  what is wrong with it, and the redesign we want, with screenshots in
+  `docs/design-brief/screenshots/`.
+- [`WEBSITE-BRIEF.md`](WEBSITE-BRIEF.md): stack-agnostic spec for building the site from scratch.
+- [`docs/sessions/`](docs/sessions/): dated notes on what changed and why.
+
+Stack: Next.js (App Router), React 19, Tailwind CSS 4, Framer Motion, React Three Fiber.
+Business info lives in `src/config/site.ts`, products in `src/data/products.ts`, design tokens
+in `src/app/globals.css`.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
